@@ -1,5 +1,5 @@
-{%- comment -%} Editable Contact layout: one big centered line over a photo. {%- endcomment -%}
-<div class="page" {% render 'page-background-style', section: section %}>
+{%- comment -%} Contact page: one big centered line over a photo, edited in the theme editor. {%- endcomment -%}
+<div class="page" {% render 'page-background-style', section: section, section_first: true %}>
   <main>
     <div class="contact">
       <p>
@@ -27,7 +27,7 @@
       "type": "url",
       "id": "link",
       "label": "Link (optional)",
-      "info": "Tip: to open an email, type mailto:you@example.com"
+      "info": "To open an email, type mailto: followed by the address."
     },
     {
       "type": "image_picker",
@@ -35,15 +35,9 @@
       "label": "Background photo"
     },
     {
-      "type": "checkbox",
-      "id": "use_page_metafield",
-      "label": "Otherwise use the page's own background photo",
-      "default": true
-    },
-    {
       "type": "select",
       "id": "background_position",
-      "label": "Background focus",
+      "label": "Photo focus",
       "options": [
         { "value": "center", "label": "Center" },
         { "value": "top", "label": "Top" },

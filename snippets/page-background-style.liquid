@@ -1,28 +1,44 @@
 {%- comment -%}
-  Inline background style for a page wrapper. First match wins:
-    1. The page's own "Background image" field (custom.background_image,
-       a File field: upload right on the page in Online Store → Pages)
-    2. The section's "Background photo" in the theme editor
-    3. The page's old "About background image" field
-       (custom.about_background_image, an image URL: what the Hydrogen site used)
-  Params: section
+  Inline background style for a page wrapper.
+  Params: section, section_first (true for the About / Contact sections,
+  where the photo picked in the editor wins)
+
+  Sources: the section's photo picked in the theme editor, the page's own
+  "Background image" field (custom.background_image, a File field), and the
+  old "About background image" URL field the Hydrogen site used.
 {%- endcomment -%}
 {%- liquid
-  assign bg_url = blank
-  assign file_field = page.metafields.custom.background_image
-  assign legacy_field = page.metafields.custom.about_background_image
-  if section.settings.use_page_metafield and file_field != blank
-    assign bg_image = file_field.value.preview_image | default: file_field.value
-    assign bg_url = bg_image | image_url: width: 2400
-  elsif section.settings.background_image != blank
-    assign bg_url = section.settings.background_image | image_url: width: 2400
-  elsif section.settings.use_page_metafield and legacy_field != blank
-    if legacy_field.type == 'file_reference'
-      assign bg_image = legacy_field.value.preview_image | default: legacy_field.value
-      assign bg_url = bg_image | image_url: width: 2400
-    else
-      assign bg_url = legacy_field.value
+  assign use_fields = true
+  if section.settings.use_page_metafield == false
+    assign use_fields = false
+  endif
+
+  assign picked_url = blank
+  if section.settings.background_image != blank
+    assign picked_url = section.settings.background_image | image_url: width: 2400
+  endif
+
+  assign field_url = blank
+  if use_fields
+    assign file_field = page.metafields.custom.background_image
+    assign legacy_field = page.metafields.custom.about_background_image
+    if file_field != blank
+      assign bg_image = file_field.value.preview_image | default: file_field.value
+      assign field_url = bg_image | image_url: width: 2400
+    elsif legacy_field != blank
+      if legacy_field.type == 'file_reference'
+        assign bg_image = legacy_field.value.preview_image | default: legacy_field.value
+        assign field_url = bg_image | image_url: width: 2400
+      else
+        assign field_url = legacy_field.value
+      endif
     endif
+  endif
+
+  if section_first
+    assign bg_url = picked_url | default: field_url
+  else
+    assign bg_url = field_url | default: picked_url
   endif
 -%}
 {%- if bg_url != blank -%}

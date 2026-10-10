@@ -1,15 +1,33 @@
 {
   "sections": {
-    "main": {
-      "type": "main-page",
+    "about": {
+      "type": "nnie-about",
+      "blocks": {
+        "point-1": {
+          "type": "point",
+          "settings": {
+            "text": "Centering modular design, and play."
+          }
+        },
+        "point-2": {
+          "type": "point",
+          "settings": {
+            "text": "Materials and fabric are always sourced from secondhand or deadstock suppliers. When pieces are not made in-house, we work with a local seamstress studio. We use earth friendly shipping materials and prioritize compostable or biodegradable packaging when possible."
+          }
+        }
+      },
+      "block_order": [
+        "point-1",
+        "point-2"
+      ],
       "settings": {
-        "layout": "about",
-        "show_title": false,
-        "use_page_metafield": true
+        "heading": "Slow-made, non-seasonal projects and ideas for the sacred act of self-decoration.",
+        "background_image": "shopify://shop_images/Component_3_1.jpg",
+        "background_position": "center"
       }
     }
   },
   "order": [
-    "main"
+    "about"
   ]
 }
