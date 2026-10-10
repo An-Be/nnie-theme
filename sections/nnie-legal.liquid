@@ -1,0 +1,47 @@
+{%- comment -%}
+  Info page layout used for Terms, Returns, Care and Privacy: small heading on
+  the left, narrow column of text. Pulls the page's title and text from the
+  admin by default, so the client just types in Online Store → Pages.
+{%- endcomment -%}
+{%- liquid
+  assign heading = section.settings.heading | default: page.title
+-%}
+<div class="page">
+  <main>
+    <div class="terms">
+      <div class="terms-header">
+        <h1>{{ heading }}</h1>
+      </div>
+      <div class="terms-info">
+        {%- if section.settings.content != blank -%}
+          {{ section.settings.content }}
+        {%- else -%}
+          {{ page.content }}
+        {%- endif -%}
+      </div>
+    </div>
+  </main>
+</div>
+
+{% schema %}
+{
+  "name": "Info page",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Leave these empty to use the page's title and text from Online Store → Pages."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Text"
+    }
+  ],
+  "presets": [{ "name": "Info page" }]
+}
+{% endschema %}

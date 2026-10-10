@@ -1,0 +1,449 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "NNIE",
+    "theme_version": "1.0.0",
+    "theme_author": "Andrea Berrocal",
+    "theme_documentation_url": "https://github.com/An-Be/nnie-theme",
+    "theme_support_url": "https://github.com/An-Be/nnie-theme/issues"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title_prefix",
+        "label": "Browser tab title prefix",
+        "default": "NNIE",
+        "info": "Tabs read like \"NNIE | Home\". Leave empty to show just the page name."
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "Square image, at least 32 × 32px. Leave empty for the original."
+      }
+    ]
+  },
+  {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "By default the header uses the original NNIE logo, which recolors itself on each page. Upload images below to replace it."
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_image",
+        "label": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_image_inverse",
+        "label": "Logo for dark backgrounds",
+        "info": "Used on the home and contact pages, where the header text is white."
+      },
+      {
+        "type": "checkbox",
+        "id": "logo_hover_swap",
+        "label": "Swap logo on hover (desktop)",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_hover_image",
+        "label": "Hover logo",
+        "info": "Only needed if you uploaded a custom logo."
+      },
+      {
+        "type": "image_picker",
+        "id": "drawer_logo",
+        "label": "Logo in the menu & cart drawers",
+        "info": "Shown on the black drawer background. Leave empty for the original white logo."
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent (wine red)",
+        "default": "#670e2d",
+        "info": "Footer text, links, info pages."
+      },
+      {
+        "type": "color",
+        "id": "active_link_color",
+        "label": "Current page link in the menu",
+        "default": "#670e2d"
+      },
+      {
+        "type": "color",
+        "id": "color_dark",
+        "label": "Dark",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "color_light",
+        "label": "Light",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_green",
+        "label": "Green",
+        "default": "#4f9509"
+      },
+      {
+        "type": "color",
+        "id": "color_dark_grey",
+        "label": "Dark grey",
+        "default": "#262626"
+      },
+      {
+        "type": "color",
+        "id": "image_border_color",
+        "label": "Product photo frame",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "footer_bg",
+        "label": "Footer background",
+        "default": "#ffffff"
+      }
+    ]
+  },
+  {
+    "name": "Page styles",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Each kind of page has its own header colors. Header = the menu, logo and CART link."
+      },
+      {
+        "type": "header",
+        "content": "Home"
+      },
+      {
+        "type": "color",
+        "id": "home_header_color",
+        "label": "Header color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "Shop page"
+      },
+      {
+        "type": "color",
+        "id": "shop_header_color",
+        "label": "Header color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "shop_bg",
+        "label": "Background",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "shop_mobile_bg",
+        "label": "Background on phones",
+        "default": "#eaeab2"
+      },
+      {
+        "type": "header",
+        "content": "Product pages"
+      },
+      {
+        "type": "color",
+        "id": "product_bg",
+        "label": "Background",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "product_mobile_bg",
+        "label": "Background on phones",
+        "default": "#eaeab2"
+      },
+      {
+        "type": "color",
+        "id": "product_text_color",
+        "label": "Title color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "products_header_mobile_color",
+        "label": "Header color on phones",
+        "default": "#000000"
+      },
+      {
+        "type": "header",
+        "content": "Contact page"
+      },
+      {
+        "type": "color",
+        "id": "contact_header_color",
+        "label": "Header color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "contact_header_mobile_color",
+        "label": "Header color on phones",
+        "default": "#4f9509"
+      },
+      {
+        "type": "color",
+        "id": "contact_text_color",
+        "label": "Big text color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "Info pages (Terms, Returns, Care, Privacy)"
+      },
+      {
+        "type": "color",
+        "id": "pages_mobile_bg",
+        "label": "Background on phones",
+        "default": "#262626"
+      },
+      {
+        "type": "color",
+        "id": "pages_mobile_text",
+        "label": "Text color on phones",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "About page"
+      },
+      {
+        "type": "color",
+        "id": "about_dot_color",
+        "label": "Dot color",
+        "default": "#000000"
+      },
+      {
+        "type": "header",
+        "content": "Everything else"
+      },
+      {
+        "type": "color",
+        "id": "default_header_color",
+        "label": "Header color",
+        "default": "#000000"
+      }
+    ]
+  },
+  {
+    "name": "Buttons",
+    "settings": [
+      {
+        "type": "color",
+        "id": "atc_bg",
+        "label": "Add to cart background",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "atc_text",
+        "label": "Add to cart text & border",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "buy_now_bg",
+        "label": "Buy now background",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "buy_now_text",
+        "label": "Buy now text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "option_active_border",
+        "label": "Selected size/option outline",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "subscribe_button_bg",
+        "label": "Subscribe button background",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "subscribe_button_text",
+        "label": "Subscribe button text & border",
+        "default": "#000000"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Fonts are typed as CSS font lists (first one the visitor has wins). Or turn on a Shopify font below."
+      },
+      {
+        "type": "text",
+        "id": "font_mono_stack",
+        "label": "Main font (shop, product, footer)",
+        "default": "Roboto Mono, 'Times New Roman', Times, serif"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_font_mono_picker",
+        "label": "Use a Shopify font for the main font",
+        "default": false
+      },
+      {
+        "type": "font_picker",
+        "id": "font_mono_picker",
+        "label": "Main font",
+        "default": "courier_new_n4"
+      },
+      {
+        "type": "text",
+        "id": "font_serif_stack",
+        "label": "Serif font (About page)",
+        "default": "'Times New Roman'"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_font_serif_picker",
+        "label": "Use a Shopify font for the serif font",
+        "default": false
+      },
+      {
+        "type": "font_picker",
+        "id": "font_serif_picker",
+        "label": "Serif font",
+        "default": "times_new_roman_n4"
+      },
+      {
+        "type": "text",
+        "id": "font_display_stack",
+        "label": "Display font (Contact page)",
+        "default": "Helvetica"
+      },
+      {
+        "type": "text",
+        "id": "font_body_stack",
+        "label": "Menu & cart font",
+        "default": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "color",
+        "id": "drawer_bg",
+        "label": "Drawer background (cart + mobile menu)",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "cart_text_color",
+        "label": "Drawer text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "text",
+        "id": "cart_close_label",
+        "label": "Close button",
+        "default": "X"
+      },
+      {
+        "type": "textarea",
+        "id": "cart_empty_text",
+        "label": "Empty cart message",
+        "default": "Looks like you haven’t added anything yet, let’s get you started!"
+      },
+      {
+        "type": "text",
+        "id": "cart_continue_label",
+        "label": "Continue shopping link",
+        "default": "Continue shopping →"
+      },
+      {
+        "type": "url",
+        "id": "cart_continue_url",
+        "label": "Continue shopping goes to",
+        "info": "Leave empty for the Shop page."
+      },
+      {
+        "type": "text",
+        "id": "cart_totals_label",
+        "label": "Totals heading",
+        "default": "Totals"
+      },
+      {
+        "type": "text",
+        "id": "cart_subtotal_label",
+        "label": "Subtotal label",
+        "default": "Subtotal:"
+      },
+      {
+        "type": "text",
+        "id": "cart_remove_label",
+        "label": "Remove button",
+        "default": "Remove"
+      },
+      {
+        "type": "text",
+        "id": "cart_checkout_label",
+        "label": "Checkout link",
+        "default": "Continue to Checkout →"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_note",
+        "label": "Let customers add an order note",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "cart_note_label",
+        "label": "Order note label",
+        "default": "Order note"
+      }
+    ]
+  },
+  {
+    "name": "Animation",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_fade",
+        "label": "Fade pages in",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "fade_delay",
+        "label": "Fade-in delay",
+        "min": 0,
+        "max": 1500,
+        "step": 50,
+        "unit": "ms",
+        "default": 500
+      }
+    ]
+  }
+]

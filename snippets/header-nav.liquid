@@ -1,0 +1,65 @@
+{%- comment -%}
+  Header navigation. Used for both the desktop column and the mobile drawer.
+  Params: viewport ('desktop' | 'mobile'), section
+{%- endcomment -%}
+{%- assign menu = linklists[section.settings.menu] -%}
+<nav class="header-menu-{{ viewport }}" role="navigation">
+  {%- for link in menu.links -%}
+    {%- liquid
+      assign is_hover_trigger = false
+      if section.settings.hover_image != blank or section.settings.use_default_hover_image
+        assign trigger = section.settings.hover_trigger | strip | downcase
+        assign this_title = link.title | strip | downcase
+        if trigger != blank and this_title == trigger
+          assign is_hover_trigger = true
+        endif
+      endif
+    -%}
+    <a
+      href="{{ link.url }}"
+      class="header-menu-item font-bold hover-{{ link.title }}{% if link.current %} is-active{% endif %}"
+      {% if is_hover_trigger and viewport == 'desktop' %}
+        data-hover-trigger
+      {% endif %}
+      {% if viewport == 'mobile' %}
+        data-aside-close-on-click
+      {% endif %}
+    >
+      {{- link.title -}}
+    </a>
+  {%- endfor -%}
+
+  {%- if viewport == 'mobile' -%}
+    {% render 'header-cart-link', section: section %}
+  {%- endif -%}
+
+  {%- if viewport == 'desktop' -%}
+    {%- if section.settings.hover_image != blank -%}
+      <div
+        class="hover-image-product visible"
+        data-hover-image
+        {% if section.settings.hover_home_only %}
+          data-home-only
+        {% endif %}
+        hidden
+      >
+        {{
+          section.settings.hover_image
+          | image_url: width: 1000
+          | image_tag: alt: section.settings.hover_image.alt, widths: '500, 750, 1000', sizes: '500px', loading: 'lazy'
+        }}
+      </div>
+    {%- elsif section.settings.use_default_hover_image -%}
+      <div
+        class="hover-image-product visible"
+        data-hover-image
+        {% if section.settings.hover_home_only %}
+          data-home-only
+        {% endif %}
+        hidden
+      >
+        <img width="565" height="565" src="{{ 'nnie-shop-hover.jpg' | asset_url }}" alt="Shop Image" loading="lazy">
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</nav>

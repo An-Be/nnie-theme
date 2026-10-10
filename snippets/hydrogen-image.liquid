@@ -1,0 +1,39 @@
+{%- comment -%}
+  Renders an <img> the same way Hydrogen's <Image> component did (same srcset
+  steps, width="100" placeholder attribute, width: 100% + aspect-ratio
+  style), so images size and lay out exactly like the original site.
+  Params: image (required), sizes, class, alt, loading
+{%- endcomment -%}
+{%- if image -%}
+  {%- liquid
+    assign img_alt = alt | default: image.alt | escape
+    assign img_loading = loading | default: 'lazy'
+    assign ratio_h = 100 | divided_by: image.aspect_ratio | round
+    assign srcset = ''
+    for i in (1..15)
+      assign w = i | times: 200
+      assign entry = image | image_url: width: w | append: ' ' | append: w | append: 'w'
+      if forloop.first
+        assign srcset = entry
+      else
+        assign srcset = srcset | append: ', ' | append: entry
+      endif
+    endfor
+  -%}
+  <img
+    alt="{{ img_alt }}"
+    decoding="async"
+    height="{{ ratio_h }}"
+    loading="{{ img_loading }}"
+    {% if sizes %}
+      sizes="{{ sizes }}"
+    {% endif %}
+    src="{{ image | image_url: width: 100 }}"
+    srcset="{{ srcset }}"
+    width="100"
+    {% if class %}
+      class="{{ class }}"
+    {% endif %}
+    style="width: 100%; aspect-ratio: {{ image.width }}/{{ image.height }};"
+  >
+{%- endif -%}

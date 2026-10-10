@@ -1,0 +1,111 @@
+{%- comment -%}
+  Cart lines + totals. Same markup as the original CartMain / CartLineItem /
+  CartSummary components. Params: layout ('aside' | 'page')
+{%- endcomment -%}
+<div class="cart-main{% if cart.cart_level_discount_applications.size > 0 %} with-discount{% endif %}" data-cart-main>
+  <div {% if cart.item_count > 0 %}hidden{% endif %}>
+    <br>
+    <p>{{ settings.cart_empty_text }}</p>
+    <br>
+    <a href="{{ settings.cart_continue_url | default: routes.all_products_collection_url }}" data-aside-close-on-click>
+      {{- settings.cart_continue_label -}}
+    </a>
+  </div>
+  <div class="cart-details">
+    <div aria-labelledby="cart-lines">
+      <ul>
+        {%- for item in cart.items -%}
+          <li class="cart-line" data-line-key="{{ item.key }}">
+            {%- if item.image -%}
+              {{
+                item.image
+                | image_url: width: 200, height: 200, crop: 'center'
+                | image_tag: width: 100, height: 100, alt: item.product.title, loading: 'lazy'
+              }}
+            {%- endif -%}
+            <div>
+              <a href="{{ item.url }}" data-aside-close-on-click>
+                <p>
+                  <strong>{{ item.product.title }}</strong>
+                </p>
+              </a>
+              <div class="product-price">
+                {%- if item.original_line_price > item.final_line_price -%}
+                  <div class="product-price-on-sale">
+                    {{ item.final_line_price | money }}
+                    <s>{{ item.original_line_price | money }}</s>
+                  </div>
+                {%- else -%}
+                  {{ item.final_line_price | money }}
+                {%- endif -%}
+              </div>
+              <ul>
+                {%- unless item.product.has_only_default_variant -%}
+                  {%- for option in item.options_with_values -%}
+                    <li>
+                      <small>{{ option.name }}: {{ option.value }}</small>
+                    </li>
+                  {%- endfor -%}
+                {%- endunless -%}
+                {%- for property in item.properties -%}
+                  {%- assign first_char = property.first | slice: 0 -%}
+                  {%- if property.last != blank and first_char != '_' -%}
+                    <li>
+                      <small>{{ property.first }}: {{ property.last }}</small>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+              <div class="cart-line-quantity">
+                <button
+                  type="button"
+                  aria-label="{{ 'cart.decrease' | t }}"
+                  data-cart-change="{{ item.quantity | minus: 1 }}"
+                  {% if item.quantity <= 1 %}
+                    disabled
+                  {% endif %}
+                >
+                  <span>&#8722; </span>
+                </button>
+                &nbsp;
+                <small>&nbsp;&nbsp; [ {{ item.quantity }} ] &nbsp;&nbsp;</small>
+                <button
+                  type="button"
+                  aria-label="{{ 'cart.increase' | t }}"
+                  data-cart-change="{{ item.quantity | plus: 1 }}"
+                >
+                  <span>&#43;</span>
+                </button>
+                &nbsp;&nbsp;
+                <button type="button" data-cart-change="0">{{ settings.cart_remove_label }}</button>
+              </div>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+    {%- if cart.item_count > 0 -%}
+      <div aria-labelledby="cart-summary" class="{% if layout == 'page' %}cart-summary-page{% else %}cart-summary-aside{% endif %}">
+        <h4>{{ settings.cart_totals_label }}</h4>
+        <div class="cart-divider"></div>
+        <dl class="cart-subtotal">
+          <dt>{{ settings.cart_subtotal_label }}&nbsp;</dt>
+          <dd>{{ cart.items_subtotal_price | money }}</dd>
+        </dl>
+        <div class="cart-divider"></div>
+        {%- if settings.cart_show_note -%}
+          <label class="cart-note">
+            <small>{{ settings.cart_note_label }}</small>
+            <textarea name="note" rows="2" data-cart-note style="width: 100%; color: #000">{{ cart.note }}</textarea>
+          </label>
+        {%- endif -%}
+        <div>
+          <a href="/checkout" target="_self" class="cart-checkout-link">
+            <p>{{ settings.cart_checkout_label }}</p>
+          </a>
+          <br>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>

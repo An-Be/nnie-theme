@@ -1,0 +1,12 @@
+<div class="nnie-spacer" style="--spacer-height: {{ section.settings.height }}px; --section-bg: {{ section.settings.background }};"></div>
+
+{% schema %}
+{
+  "name": "Spacer",
+  "settings": [
+    { "type": "range", "id": "height", "label": "Height", "min": 8, "max": 400, "step": 8, "unit": "px", "default": 64 },
+    { "type": "color_background", "id": "background", "label": "Background" }
+  ],
+  "presets": [{ "name": "Spacer" }]
+}
+{% endschema %}

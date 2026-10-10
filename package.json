@@ -1,0 +1,15 @@
+{
+  "name": "nnie-theme",
+  "private": true,
+  "version": "1.0.0",
+  "description": "NNIE Shopify theme (Online Store 2.0), rebuilt from the NNIE Hydrogen storefront.",
+  "scripts": {
+    "build:css": "sass --no-source-map --style=expanded src/styles/nnie.scss assets/nnie.css",
+    "watch:css": "sass --no-source-map --style=expanded --watch src/styles/nnie.scss assets/nnie.css",
+    "dev": "shopify theme dev",
+    "check": "shopify theme check"
+  },
+  "devDependencies": {
+    "sass": "^1.77.8"
+  }
+}

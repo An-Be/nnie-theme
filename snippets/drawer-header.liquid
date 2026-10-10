@@ -1,0 +1,11 @@
+{%- comment -%} Shared header for the cart + mobile menu drawers. Params: heading {%- endcomment -%}
+<header>
+  <a href="{{ routes.root_url }}" style="width: 100%" class="aside-red-logo" data-aside-close-on-click>
+    {%- if settings.drawer_logo != blank -%}
+      {{ settings.drawer_logo | image_url: width: 600 | image_tag: width: '60%', alt: shop.name, loading: 'lazy' }}
+    {%- else -%}
+      <img width="60%" height="36" src="{{ 'nnie-logo-white.svg' | asset_url }}" alt="{{ shop.name | escape }}" loading="lazy">
+    {%- endif -%}
+  </a>
+  <h3 class="close reset" data-aside-close role="button" tabindex="0">{{ heading }}</h3>
+</header>

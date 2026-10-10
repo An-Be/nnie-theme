@@ -1,0 +1,53 @@
+{%- comment -%}
+  Default page: shows the page's content from Online Store → Pages, with the
+  page's background photo behind it.
+{%- endcomment -%}
+<div class="page" {% render 'page-background-style', section: section %}>
+  {%- if section.settings.show_title -%}
+    <h1>{{ page.title }}</h1>
+  {%- endif -%}
+  <main>{{ page.content }}</main>
+</div>
+
+{% schema %}
+{
+  "name": "Page content",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Text comes from Online Store → Pages. Use the sections in \"Add section\" (About, Contact, Info page) for layouts you can edit right here."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show page title",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background photo"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_page_metafield",
+      "label": "Otherwise use the page's own background photo",
+      "default": true,
+      "info": "The \"About background image\" field at the bottom of each page in the admin."
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background focus",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "top", "label": "Top" },
+        { "value": "bottom", "label": "Bottom" },
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    }
+  ]
+}
+{% endschema %}

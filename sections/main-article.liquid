@@ -1,0 +1,17 @@
+<div class="nnie-simple-page article">
+  <h1>
+    {{ article.title }}
+    <div><small>{{ article.published_at | date: format: 'date' }} &middot; {{ article.author }}</small></div>
+  </h1>
+  {%- if article.image -%}
+    {% render 'hydrogen-image', image: article.image, sizes: '90vw', loading: 'eager' %}
+  {%- endif -%}
+  <div class="article">{{ article.content }}</div>
+</div>
+
+{% schema %}
+{
+  "name": "Journal post",
+  "settings": []
+}
+{% endschema %}

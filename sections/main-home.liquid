@@ -1,0 +1,102 @@
+{%- comment -%}
+  Home hero: the full-screen photo strip behind the header.
+  On desktop the photo repeats side by side (3 across by default), 2 across on
+  tablets, and fills the screen on phones, same as the original.
+{%- endcomment -%}
+{%- liquid
+  if section.settings.background != blank
+    assign bg_url = section.settings.background | image_url: width: 2400
+  else
+    assign bg_url = 'nnie-home-background.jpg' | asset_url
+  endif
+-%}
+<style>
+  body.home-background {
+    --home-bg-image: url('{{ bg_url }}');
+    --home-bg-columns: {{ section.settings.columns_desktop }};
+    --home-bg-columns-tablet: {{ section.settings.columns_tablet }};
+  }
+  {%- if section.settings.mobile_background != blank %}
+    @media (max-width: 40rem) {
+      body.home-background {
+        --home-bg-image: url('{{ section.settings.mobile_background | image_url: width: 1500 }}');
+      }
+    }
+  {%- endif %}
+</style>
+<div class="home">
+  {%- if section.settings.overlay_text != blank -%}
+    <div
+      class="nnie-home-overlay"
+      style="height: 100%; display: flex; align-items: {{ section.settings.text_position }}; justify-content: center; padding: 2.5rem; color: {{ section.settings.text_color }}; text-align: center; font-family: var(--font-display); font-size: clamp(24px, 4vw, 54px); line-height: 1.2;"
+    >
+      <div>{{ section.settings.overlay_text }}</div>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Home background",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background",
+      "label": "Background photo",
+      "info": "Leave empty to use the original photo."
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_background",
+      "label": "Phone background photo (optional)",
+      "info": "Use a different photo on phones."
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Photo repeats across (desktop)",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "label": "Photo repeats across (tablet)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Text on top (optional)"
+    },
+    {
+      "type": "richtext",
+      "id": "overlay_text",
+      "label": "Text"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text position",
+      "options": [
+        { "value": "flex-start", "label": "Top" },
+        { "value": "center", "label": "Middle" },
+        { "value": "flex-end", "label": "Bottom" }
+      ],
+      "default": "center"
+    }
+  ],
+  "enabled_on": { "templates": ["index"] },
+  "presets": [{ "name": "Home background" }]
+}
+{% endschema %}

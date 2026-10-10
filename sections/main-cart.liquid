@@ -1,0 +1,13 @@
+<div class="nnie-simple-page cart" data-cart-page>
+  {%- if section.settings.heading != blank -%}
+    <h1>{{ section.settings.heading }}</h1>
+  {%- endif -%}
+  {% render 'cart-contents', layout: 'page' %}
+</div>
+
+{% schema %}
+{
+  "name": "Cart page",
+  "settings": [{ "type": "text", "id": "heading", "label": "Heading", "default": "Cart" }]
+}
+{% endschema %}

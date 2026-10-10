@@ -1,0 +1,48 @@
+{%- comment -%}
+  Picks the page "style" class on <body>, mirroring the route → background
+  mapping from the original Hydrogen root.jsx. Each class has its own header
+  colors and backgrounds under Theme settings → Page styles.
+
+  To give any page a style, assign it one of these templates in the admin
+  (Online Store → Pages → Template):
+    page.about    → about style
+    page.contact  → contact style (white header, background image)
+    page.legal    → legal style (terms, returns, care, privacy)
+  Pages with these handles get the style automatically too.
+{%- endcomment -%}
+{%- liquid
+  assign nnie_body_class = 'default-background'
+  case template.name
+    when 'index'
+      assign nnie_body_class = 'home-background'
+    when 'collection'
+      if collection.handle == 'all'
+        assign nnie_body_class = 'shop-background'
+      endif
+    when 'product'
+      assign nnie_body_class = 'products-background'
+    when 'blog'
+      if blog.handle == 'news' or blog.handle == 'journal'
+        assign nnie_body_class = 'journal-background'
+      endif
+    when 'page'
+      case template.suffix
+        when 'about'
+          assign nnie_body_class = 'about-background'
+        when 'contact'
+          assign nnie_body_class = 'contact-background'
+        when 'legal'
+          assign nnie_body_class = 'pages-background'
+        else
+          case page.handle
+            when 'about'
+              assign nnie_body_class = 'about-background'
+            when 'contact'
+              assign nnie_body_class = 'contact-background'
+            when 'privacy-policy', 'returns', 'care', 'terms'
+              assign nnie_body_class = 'pages-background'
+          endcase
+      endcase
+  endcase
+-%}
+{{- nnie_body_class -}}

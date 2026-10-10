@@ -1,0 +1,6 @@
+{
+  "sections": {
+    "home": { "type": "main-home", "settings": { "columns_desktop": 3, "columns_tablet": 2 } }
+  },
+  "order": ["home"]
+}

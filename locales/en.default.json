@@ -1,0 +1,24 @@
+{
+  "general": {
+    "home": "Home",
+    "products": "Products",
+    "page": "Page {{ page }}",
+    "close": "Close",
+    "password": "Password",
+    "enter": "Enter"
+  },
+  "cart": {
+    "title": "Cart",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity"
+  },
+  "products": {
+    "from_price": "From {{ price }}"
+  },
+  "gift_card": {
+    "title": "Gift card",
+    "expired": "This gift card is no longer valid.",
+    "balance": "Balance",
+    "shop_link": "Continue shopping"
+  }
+}

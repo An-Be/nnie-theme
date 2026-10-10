@@ -1,0 +1,53 @@
+{%- comment -%}
+  One row on the Shop page: main photo with title + price, and a second photo
+  with its caption beside it (hidden on phones). Params: product, section, index
+{%- endcomment -%}
+{%- liquid
+  assign img_loading = 'lazy'
+  if index <= 8
+    assign img_loading = 'eager'
+  endif
+  assign first_image = product.images[0]
+  assign second_image = product.images[1]
+-%}
+<div class="product-item-wrapper">
+  <a class="product-item-1" href="{{ product.url }}">
+    {%- if first_image -%}
+      {% render 'hydrogen-image',
+        image: first_image,
+        sizes: '(min-width: 45em) 400px, 100vw',
+        class: 'nnie-framed',
+        loading: img_loading
+      %}
+    {%- endif -%}
+    <div class="flex items-start justify-between flex-wrap m-1">
+      <h4 class="m-0">{{ product.title }}</h4>
+      <small>
+        {%- if section.settings.show_price -%}
+          {%- if product.price_varies and section.settings.show_price_from -%}
+            {%- assign from_price = product.price_min | money -%}
+            {{ 'products.from_price' | t: price: from_price }}
+          {%- else -%}
+            {{ product.price_min | money }}
+          {%- endif -%}
+        {%- endif -%}
+        {%- if section.settings.show_sold_out and product.available == false %}
+          {{ section.settings.sold_out_label -}}
+        {%- endif -%}
+      </small>
+    </div>
+  </a>
+  {%- if second_image and section.settings.show_second_image -%}
+    <div class="product-item-2">
+      {% render 'hydrogen-image',
+        image: second_image,
+        sizes: '(min-width: 45em) 500px, 100vw',
+        class: 'nnie-framed',
+        loading: img_loading
+      %}
+      {%- if section.settings.show_caption -%}
+        <p class="text-right italic text-xs">{{ second_image.alt }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>

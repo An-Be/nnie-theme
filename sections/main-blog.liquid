@@ -1,0 +1,30 @@
+<div class="nnie-simple-page blog">
+  <h1>{{ blog.title }}</h1>
+  {%- paginate blog.articles by section.settings.per_page -%}
+    <div class="nnie-simple-page__grid blog-grid">
+      {%- for article in blog.articles -%}
+        <div class="blog-article">
+          <a href="{{ article.url }}">
+            {%- if article.image -%}
+              <div class="blog-article-image">
+                {% render 'hydrogen-image', image: article.image, sizes: '(min-width: 768px) 50vw, 100vw' %}
+              </div>
+            {%- endif -%}
+            <h3>{{ article.title }}</h3>
+            <small>{{ article.published_at | date: format: 'date' }}</small>
+          </a>
+        </div>
+      {%- endfor -%}
+    </div>
+    {%- if paginate.pages > 1 -%}
+      <div class="nnie-pagination">{{ paginate | default_pagination }}</div>
+    {%- endif -%}
+  {%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+  "name": "Journal",
+  "settings": [{ "type": "range", "id": "per_page", "label": "Posts per page", "min": 4, "max": 24, "step": 1, "default": 8 }]
+}
+{% endschema %}

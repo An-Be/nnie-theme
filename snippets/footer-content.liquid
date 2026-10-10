@@ -1,0 +1,101 @@
+{%- comment -%}
+  One footer layout. Rendered twice (large + small) like the original, and CSS
+  shows the right one per screen size. Params: section, size ('large'|'small')
+{%- endcomment -%}
+{%- assign menu = linklists[section.settings.menu] -%}
+<footer class="footer">
+  <div class="footer-link-wrapper flex justify-between {% if size == 'large' %}px-10 pt-10{% else %}flex-col pt-5{% endif %}">
+    <div class="nnie-contact-info">
+      {%- if section.settings.info_text != blank -%}
+        <p>{{ section.settings.info_text }}</p>
+      {%- endif -%}
+      {%- if section.settings.email != blank -%}
+        {%- if size == 'large' or section.settings.show_email_mobile -%}
+          <p>
+            {%- if section.settings.email_is_link -%}
+              <a href="mailto:{{ section.settings.email }}" style="color: inherit">{{ section.settings.email }}</a>
+            {%- else -%}
+              {{ section.settings.email }}
+            {%- endif -%}
+          </p>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_subscribe -%}
+      <div class="subscribe">
+        {%- assign newsletter_form_id = 'NewsletterForm-' | append: size -%}
+        {%- form 'customer', id: newsletter_form_id, class: 'subsribe-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label for="NewsletterEmail-{{ size }}"> {{ section.settings.subscribe_label }}</label>
+          <div data-subscribe-status>
+            {%- if form.errors -%}
+              <p>
+                <small>{{ section.settings.subscribe_error }}</small>
+              </p>
+            {%- elsif form.posted_successfully? -%}
+              <p>
+                <small>{{ section.settings.subscribe_success }}</small>
+              </p>
+            {%- endif -%}
+          </div>
+          <div class="input-wrapper flex items-center">
+            <input
+              id="NewsletterEmail-{{ size }}"
+              name="contact[email]"
+              type="email"
+              required
+              placeholder="{{ section.settings.subscribe_placeholder | escape }}"
+              aria-label="Email"
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+            >
+            <button
+              type="submit"
+              data-loading-text="{{ section.settings.subscribe_loading | escape }}"
+            >
+              {{- section.settings.subscribe_button -}}
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+    {%- endif -%}
+
+    <nav class="footer-menu flex flex-col" role="navigation">
+      {%- for link in menu.links -%}
+        {%- assign first_char = link.url | slice: 0 -%}
+        {%- if first_char == '/' or link.url contains request.host -%}
+          <a href="{{ link.url }}" class="{% if link.current %}is-active{% endif %}">{{ link.title }}</a>
+        {%- else -%}
+          <a href="{{ link.url }}" rel="noopener noreferrer" target="_blank">{{ link.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+      {%- for block in section.blocks -%}
+        <a
+          href="{{ block.settings.url }}"
+          {% if block.settings.new_tab %}
+            target="_blank" rel="noopener noreferrer"
+          {% endif %}
+          {{ block.shopify_attributes }}
+        >
+          {{- block.settings.label -}}
+        </a>
+      {%- endfor -%}
+    </nav>
+  </div>
+
+  {%- if section.settings.show_big_logo -%}
+    <div class="logoInFooter">
+      {%- if section.settings.big_logo != blank -%}
+        {{
+          section.settings.big_logo
+          | image_url: width: 3000
+          | image_tag: class: 'logo-in-footer', alt: shop.name, widths: '750, 1200, 1800, 2400, 3000', sizes: '100vw', loading: 'lazy'
+        }}
+      {%- else -%}
+        <img width="100%" height="274" class="logo-in-footer" src="{{ 'nnie-logo-footer.png' | asset_url }}" alt="{{ shop.name | escape }} logo" loading="lazy">
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</footer>

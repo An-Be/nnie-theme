@@ -1,0 +1,185 @@
+{%- comment -%}
+  Shop page (/collections/all) and every other collection.
+  "Editorial" is the original NNIE shop layout: one product per row with two
+  photos. "Grid" is a simple product grid.
+{%- endcomment -%}
+{%- liquid
+  assign layout = section.settings.layout
+  if layout == 'auto'
+    if collection.handle == 'all'
+      assign layout = 'editorial'
+    else
+      assign layout = 'grid'
+    endif
+  endif
+-%}
+{%- paginate collection.products by section.settings.products_per_page -%}
+  <div class="collection" data-collection-section>
+    {%- if layout == 'grid' -%}
+      {%- if section.settings.show_title -%}
+        <h1>{{ collection.title }}</h1>
+      {%- endif -%}
+      {%- if section.settings.show_description and collection.description != blank -%}
+        <div class="collection-description">{{ collection.description }}</div>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if paginate.previous -%}
+      <a
+        href="{{ paginate.previous.url }}"
+        class="collection-pagination-link"
+        data-load-more="previous"
+        data-section-id="{{ section.id }}"
+        data-loading-text="{{ section.settings.loading_label | escape }}"
+      >
+        <span>{{ section.settings.load_previous_label }}</span>
+      </a>
+    {%- endif -%}
+
+    <div class="products-grid" data-products-grid>
+      {%- for product in collection.products -%}
+        {%- if layout == 'editorial' -%}
+          {% render 'product-item-editorial', product: product, section: section, index: forloop.index %}
+        {%- else -%}
+          <a class="product-item" href="{{ product.url }}">
+            {%- if product.featured_image -%}
+              {% render 'hydrogen-image',
+                image: product.featured_image,
+                sizes: '(min-width: 45em) 400px, 100vw'
+              %}
+            {%- endif -%}
+            <h4>{{ product.title }}</h4>
+            <small>{{ product.price_min | money }}</small>
+          </a>
+        {%- endif -%}
+      {%- else -%}
+        <p style="padding: 10rem 2rem 2rem">{{ section.settings.empty_text }}</p>
+      {%- endfor -%}
+    </div>
+    <br>
+    {%- if paginate.next -%}
+      <a
+        href="{{ paginate.next.url }}"
+        class="collection-pagination-link"
+        data-load-more="next"
+        data-section-id="{{ section.id }}"
+        data-loading-text="{{ section.settings.loading_label | escape }}"
+      >
+        <span>{{ section.settings.load_more_label }}</span>
+      </a>
+    {%- endif -%}
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Product list",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "auto", "label": "Editorial on Shop page, grid elsewhere" },
+        { "value": "editorial", "label": "Editorial (one product per row)" },
+        { "value": "grid", "label": "Grid" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products loaded at a time",
+      "min": 4,
+      "max": 48,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Editorial layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_second_image",
+      "label": "Show second photo next to each product",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_caption",
+      "label": "Show caption under the second photo",
+      "default": true,
+      "info": "The caption is the photo's alt text. Edit it on the product page in the admin (click the photo → Add alt text)."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price_from",
+      "label": "Show \"From\" when variants have different prices",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sold_out",
+      "label": "Show a sold out label",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "sold_out_label",
+      "label": "Sold out label",
+      "default": "Sold out"
+    },
+    {
+      "type": "header",
+      "content": "Grid layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show collection title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show collection description",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "load_more_label",
+      "label": "Load more link",
+      "default": "Load more ↓"
+    },
+    {
+      "type": "text",
+      "id": "load_previous_label",
+      "label": "Load previous link",
+      "default": "↑ Load previous"
+    },
+    {
+      "type": "text",
+      "id": "loading_label",
+      "label": "Loading text",
+      "default": "Loading..."
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "Text when there are no products",
+      "default": "No products yet."
+    }
+  ]
+}
+{% endschema %}

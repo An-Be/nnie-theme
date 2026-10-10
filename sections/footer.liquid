@@ -1,0 +1,143 @@
+<div class="footer-large">
+  {% render 'footer-content', section: section, size: 'large' %}
+</div>
+<div class="footer-small">
+  {% render 'footer-content', section: section, size: 'small' %}
+</div>
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "nnie-footer-section",
+  "enabled_on": { "groups": ["footer"] },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Studio info"
+    },
+    {
+      "type": "text",
+      "id": "info_text",
+      "label": "Studio name / copyright line",
+      "default": "NNIE Studio 2024"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "info@nnie-studio.com"
+    },
+    {
+      "type": "checkbox",
+      "id": "email_is_link",
+      "label": "Make the email clickable",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_email_mobile",
+      "label": "Show email on mobile",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Newsletter signup"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subscribe",
+      "label": "Show newsletter signup",
+      "default": true,
+      "info": "Signups appear in Customers with email marketing turned on."
+    },
+    {
+      "type": "text",
+      "id": "subscribe_label",
+      "label": "Heading",
+      "default": "Receive notes in your inbox from us"
+    },
+    {
+      "type": "text",
+      "id": "subscribe_placeholder",
+      "label": "Email field placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "subscribe_button",
+      "label": "Button text",
+      "default": "SUBSCRIBE"
+    },
+    {
+      "type": "text",
+      "id": "subscribe_loading",
+      "label": "Button text while sending",
+      "default": "SUBSCRIBING..."
+    },
+    {
+      "type": "text",
+      "id": "subscribe_success",
+      "label": "Success message",
+      "default": "Thank you for subscribing!"
+    },
+    {
+      "type": "text",
+      "id": "subscribe_error",
+      "label": "Error message",
+      "default": "Sorry, an error occured. Please try again."
+    },
+    {
+      "type": "header",
+      "content": "Links"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Footer menu",
+      "default": "footer",
+      "info": "Extra links (like Instagram) can be added as blocks below the menu."
+    },
+    {
+      "type": "header",
+      "content": "Big logo"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_big_logo",
+      "label": "Show big logo at the bottom",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "big_logo",
+      "label": "Big logo image",
+      "info": "Leave empty to use the original NNIE logo."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Extra link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Link text",
+          "default": "Instagram"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "new_tab",
+          "label": "Open in a new tab",
+          "default": true
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

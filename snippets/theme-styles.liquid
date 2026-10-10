@@ -1,0 +1,84 @@
+{%- comment -%}
+  Turns Theme settings into CSS variables used by assets/nnie.css.
+{%- endcomment -%}
+{%- liquid
+  assign font_mono = settings.font_mono_stack
+  if settings.use_font_mono_picker and settings.font_mono_picker
+    assign font_mono = settings.font_mono_picker.family | append: ', ' | append: settings.font_mono_picker.fallback_families
+  endif
+  assign font_serif = settings.font_serif_stack
+  if settings.use_font_serif_picker and settings.font_serif_picker
+    assign font_serif = settings.font_serif_picker.family | append: ', ' | append: settings.font_serif_picker.fallback_families
+  endif
+-%}
+<style>
+  {%- if settings.use_font_mono_picker and settings.font_mono_picker -%}
+    {{ settings.font_mono_picker | font_face: font_display: 'swap' }}
+    {{ settings.font_mono_picker | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {%- endif -%}
+  {%- if settings.use_font_serif_picker and settings.font_serif_picker -%}
+    {{ settings.font_serif_picker | font_face: font_display: 'swap' }}
+  {%- endif %}
+  :root {
+    --color-dark: {{ settings.color_dark }};
+    --color-light: {{ settings.color_light }};
+    --color-red: {{ settings.color_accent }};
+    --color-green: {{ settings.color_green }};
+    --color-dark-grey: {{ settings.color_dark_grey }};
+    --active-link-color: {{ settings.active_link_color }};
+    --image-border-color: {{ settings.image_border_color }};
+
+    --font-body: {{ settings.font_body_stack }};
+    --font-mono: {{ font_mono }};
+    --font-serif: {{ font_serif }};
+    --font-display: {{ settings.font_display_stack }};
+
+    --header-color: {{ settings.default_header_color }};
+    --home-header-color: {{ settings.home_header_color }};
+    --shop-header-color: {{ settings.shop_header_color }};
+    --contact-header-color: {{ settings.contact_header_color }};
+    --contact-header-mobile-color: {{ settings.contact_header_mobile_color }};
+    --contact-text-color: {{ settings.contact_text_color }};
+    --pages-mobile-bg: {{ settings.pages_mobile_bg }};
+    --pages-mobile-text: {{ settings.pages_mobile_text }};
+    --products-header-mobile-color: {{ settings.products_header_mobile_color }};
+    --about-dot-color: {{ settings.about_dot_color }};
+
+    --shop-bg: {{ settings.shop_bg }};
+    --shop-mobile-bg: {{ settings.shop_mobile_bg }};
+    --product-bg: {{ settings.product_bg }};
+    --product-mobile-bg: {{ settings.product_mobile_bg }};
+    --product-text-color: {{ settings.product_text_color }};
+
+    --atc-bg: {{ settings.atc_bg }};
+    --atc-text: {{ settings.atc_text }};
+    --atc-border: {{ settings.atc_text }};
+    --buy-now-bg: {{ settings.buy_now_bg }};
+    --buy-now-text: {{ settings.buy_now_text }};
+    --option-active-border: {{ settings.option_active_border }};
+
+    --cart-divider-color: {{ settings.cart_text_color }};
+    --subscribe-button-bg: {{ settings.subscribe_button_bg }};
+    --subscribe-button-text: {{ settings.subscribe_button_text }};
+  }
+  body {
+    font-family: var(--font-body);
+  }
+  aside,
+  .cart-summary-aside {
+    background-color: {{ settings.drawer_bg }};
+  }
+  aside.cart {
+    color: {{ settings.cart_text_color }};
+  }
+  aside header .close,
+  aside main nav a {
+    color: {{ settings.cart_text_color }} !important;
+  }
+  .footer {
+    background: {{ settings.footer_bg }};
+  }
+  .nnie-contact-info > p {
+    color: var(--color-red);
+  }
+</style>

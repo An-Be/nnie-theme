@@ -1,0 +1,101 @@
+{%- comment -%}
+  Header: the vertical menu, NNIE logo (with hover swap) and cart link,
+  plus the mobile menu drawer and the cart drawer.
+{%- endcomment -%}
+
+{%- comment -%} Cart drawer {%- endcomment -%}
+<div class="overlay" data-aside="cart" aria-modal="true" role="dialog" aria-label="{{ 'cart.title' | t }}">
+  <button class="close-outside" data-aside-close aria-label="{{ 'general.close' | t }}"></button>
+  <aside class="cart">
+    {% render 'drawer-header', heading: settings.cart_close_label %}
+    <main id="CartDrawer">
+      {% render 'cart-contents', layout: 'aside' %}
+    </main>
+  </aside>
+</div>
+
+{%- comment -%} Mobile menu drawer {%- endcomment -%}
+{%- if linklists[section.settings.menu].links.size > 0 -%}
+  <div class="overlay" data-aside="mobile" aria-modal="true" role="dialog" aria-label="{{ section.settings.mobile_menu_label | escape }}">
+    <button class="close-outside" data-aside-close aria-label="{{ 'general.close' | t }}"></button>
+    <aside class="mobile">
+      {% render 'drawer-header', heading: section.settings.mobile_menu_label %}
+      <main>
+        {% render 'header-nav', viewport: 'mobile', section: section %}
+      </main>
+    </aside>
+  </div>
+{%- endif -%}
+
+<header class="header m-7">
+  <button class="header-menu-mobile-toggle reset" data-aside-open="mobile">
+    <h3 class="font-bold">{{ section.settings.mobile_menu_label }}</h3>
+  </button>
+  {% render 'header-nav', viewport: 'desktop', section: section %}
+  {% render 'nnie-logo' %}
+  <div class="header-cart-wrapper">
+    {% render 'header-cart-link', section: section %}
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "nnie-header-section",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu",
+      "info": "Edit the links in Online Store → Navigation."
+    },
+    {
+      "type": "text",
+      "id": "mobile_menu_label",
+      "label": "Mobile menu button text",
+      "default": "MENU"
+    },
+    {
+      "type": "text",
+      "id": "cart_label",
+      "label": "Cart link text",
+      "default": "CART",
+      "info": "The item count shows after this text."
+    },
+    {
+      "type": "header",
+      "content": "Menu hover image"
+    },
+    {
+      "type": "paragraph",
+      "content": "An image that pops up in the middle of the screen when someone hovers a menu link (desktop only)."
+    },
+    {
+      "type": "text",
+      "id": "hover_trigger",
+      "label": "Menu link that shows the image",
+      "default": "SHOP",
+      "info": "Type the link's text exactly as it appears in the menu. Leave empty to turn the hover image off."
+    },
+    {
+      "type": "image_picker",
+      "id": "hover_image",
+      "label": "Hover image"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_default_hover_image",
+      "label": "Use the original hover image when none is uploaded",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hover_home_only",
+      "label": "Only show on the home page",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,18 @@
+{
+  "type": "header",
+  "name": "Header",
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "mobile_menu_label": "MENU",
+        "cart_label": "CART",
+        "hover_trigger": "SHOP",
+        "use_default_hover_image": true,
+        "hover_home_only": true
+      }
+    }
+  },
+  "order": ["header"]
+}

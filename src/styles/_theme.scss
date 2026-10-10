@@ -1,0 +1,332 @@
+/*
+* --------------------------------------------------
+* Theme glue
+* Styles that used to live inline in the Hydrogen JSX, plus the few rules
+* needed to make Shopify's section wrappers behave like the original markup.
+* Every value here reads from a CSS variable set in layout/theme.liquid,
+* so the theme editor controls it.
+* --------------------------------------------------
+*/
+
+/* Header text + logo default color (pages without a specific style) */
+.header {
+  color: var(--header-color, #000);
+}
+.main-logo,
+.alt-logo {
+  fill: var(--header-color, #000);
+}
+
+/* Optional uploaded logo images (inline SVG is the default) */
+.header-logo-image {
+  object-fit: contain;
+  object-position: left top;
+  border-radius: 0;
+}
+.header-logo-image--inverse {
+  display: none;
+}
+body.home-background,
+body.contact-background {
+  .header-logo-image--has-inverse {
+    display: none;
+  }
+  .header-logo-image--inverse {
+    display: block;
+  }
+}
+
+/* Active link in the header nav (was an inline style) */
+.header-menu-item.is-active {
+  color: var(--active-link-color, rgb(103, 14, 45)) !important;
+}
+
+/* Fade-in: the header lives outside the grid so the drawers aren't dimmed with it */
+.header {
+  opacity: 0.1;
+  transition: opacity 0.3 ease; /* same (no-unit) value as the original grid fade */
+}
+body.nnie-faded-in .header,
+body.nnie-faded-in .grid-container {
+  opacity: 1;
+}
+body.nnie-no-fade .header,
+body.nnie-no-fade .grid-container {
+  opacity: 1;
+}
+
+/* Section wrappers: let a single section fill <main> like the original route did */
+.main-content > .shopify-section:only-child {
+  height: 100%;
+}
+.nnie-footer-section {
+  grid-area: footer;
+  margin-top: auto;
+}
+
+/* SHOP hover image */
+.hover-image-product[hidden] {
+  display: none !important;
+}
+
+/* Images with the editorial 1px frame */
+.nnie-framed {
+  border: 1px solid var(--image-border-color, #000);
+  border-radius: 0;
+}
+
+/* Product images: square crop on small screens (was a JS resize listener) */
+@media (max-width: 600px) {
+  .product-image img {
+    aspect-ratio: 1 / 1 !important;
+    object-fit: cover;
+  }
+}
+.product-image {
+  &--no-crop img {
+    aspect-ratio: auto !important;
+  }
+}
+
+/* Variant option pills */
+.product-options-item {
+  border: 1px solid transparent;
+  &.is-active {
+    border-color: var(--option-active-border, #000);
+  }
+  &.is-unavailable {
+    opacity: 0.3;
+  }
+}
+.product-form button[disabled] {
+  cursor: not-allowed;
+}
+
+/* Cart drawer */
+.cart-divider {
+  height: 1px;
+  background-color: var(--cart-divider-color, #fff);
+  margin: 5px 0;
+}
+.cart-line-quantity button {
+  cursor: pointer;
+}
+.cart-line-quantity button[disabled] {
+  cursor: default;
+  opacity: 0.5;
+}
+aside.cart a {
+  color: inherit;
+}
+.cart-main.is-loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Footer: info block */
+.nnie-contact-info p {
+  text-align: left;
+}
+.footer-small .nnie-contact-info p {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+/* Footer: links */
+.footer-menu a {
+  color: var(--color-red);
+  text-align: right;
+}
+.footer-menu a.is-active {
+  font-weight: bold;
+}
+
+/* Footer: subscribe form */
+.subscribe form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.subscribe label {
+  color: var(--color-red);
+  align-self: start;
+  margin-left: 10px;
+  font-size: 11px;
+}
+.footer-small .subscribe label {
+  align-self: center;
+}
+.subscribe input {
+  height: 35px;
+  width: 100%;
+  font-size: 16px;
+  margin: 10px;
+  border-radius: 0;
+}
+.subscribe button {
+  background-color: var(--subscribe-button-bg, #fff);
+  color: var(--subscribe-button-text, #000);
+  border: solid 1px var(--subscribe-button-text, #000);
+  cursor: pointer;
+  font-size: 16px;
+  height: 35px;
+  min-width: 130px;
+  max-width: 150px;
+  width: 100%;
+}
+
+/* Footer: big logo */
+.logo-in-footer {
+  width: 100%;
+}
+
+/* Extra sections Andrea's client can add from the editor */
+.nnie-section {
+  font-family: var(--font-mono);
+}
+.nnie-rich-text {
+  padding: var(--section-padding, 4rem) 2.5rem;
+  color: var(--section-text, inherit);
+  background: var(--section-bg, transparent);
+  text-align: var(--section-align, left);
+  .nnie-rich-text__inner {
+    max-width: var(--section-width, 640px);
+    margin: 0 auto;
+  }
+  h2 {
+    font-weight: normal;
+    font-family: var(--font-serif);
+    font-size: 36px;
+    line-height: 42px;
+  }
+  p {
+    font-size: 14px;
+  }
+  a {
+    text-decoration: underline;
+  }
+}
+.nnie-image-banner {
+  position: relative;
+  min-height: var(--banner-height, 70vh);
+  display: flex;
+  align-items: var(--banner-v, center);
+  justify-content: var(--banner-h, center);
+  background-size: cover;
+  background-position: center;
+  padding: 2.5rem;
+  color: var(--section-text, #fff);
+  text-align: center;
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 6vw, 54px);
+    line-height: 1.2;
+    font-weight: normal;
+    margin: 0;
+  }
+  a.nnie-button {
+    display: inline-block;
+    margin-top: 1.5rem;
+  }
+}
+.nnie-button {
+  border: 1px solid currentColor;
+  padding: 5px 20px;
+  font-size: 14px;
+  font-family: var(--font-mono);
+}
+.nnie-featured {
+  padding: var(--section-padding, 4rem) 2.5rem;
+  background: var(--section-bg, transparent);
+  h2 {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: normal;
+    color: var(--color-red);
+  }
+  .nnie-featured__grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(var(--featured-columns, 4), 1fr);
+    @media (max-width: 40rem) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .nnie-featured__item {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+.nnie-spacer {
+  height: var(--spacer-height, 4rem);
+  background: var(--section-bg, transparent);
+}
+
+/* Simple utility pages (search, blog, 404, cart page) */
+.nnie-simple-page {
+  font-family: var(--font-mono);
+  padding: 10rem 2.5rem 5rem;
+  font-size: 14px;
+  min-height: calc(var(--vh, 1vh) * 100);
+  h1 {
+    font-size: 16px;
+    font-weight: normal;
+    margin-top: 0;
+  }
+  input[type='search'] {
+    border-radius: 0;
+    width: 100%;
+    max-width: 400px;
+  }
+  .nnie-simple-page__grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    margin-top: 2rem;
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+  a {
+    text-decoration: underline;
+  }
+  .nnie-pagination {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+  }
+}
+
+/* Collection "Load more" links */
+.collection-pagination-link {
+  cursor: pointer;
+}
+/* Product page extra blocks */
+.product-extra {
+  font-size: 12px;
+  margin: 0.5rem 0;
+  summary {
+    cursor: pointer;
+    list-style: none;
+    &::-webkit-details-marker {
+      display: none;
+    }
+    &::after {
+      content: ' +';
+    }
+  }
+  &[open] summary::after {
+    content: ' −';
+  }
+  a {
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,12 @@
+{%- comment -%}
+  Not placed on any page: the cart drawer re-renders this section through
+  Shopify's Section Rendering API after every add / update.
+{%- endcomment -%}
+{% render 'cart-contents', layout: 'aside' %}
+
+{% schema %}
+{
+  "name": "Cart drawer",
+  "settings": []
+}
+{% endschema %}

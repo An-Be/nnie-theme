@@ -1,0 +1,21 @@
+<div class="nnie-simple-page collections">
+  <div class="collections-grid">
+    {%- for collection in collections -%}
+      {%- unless collection.handle == 'frontpage' -%}
+        <a class="collection-item" href="{{ collection.url }}">
+          {%- if collection.featured_image -%}
+            {% render 'hydrogen-image', image: collection.featured_image, sizes: '(max-width: 32em) 100vw, 45vw' %}
+          {%- endif -%}
+          <h5>{{ collection.title }}</h5>
+        </a>
+      {%- endunless -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collections list",
+  "settings": []
+}
+{% endschema %}

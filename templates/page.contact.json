@@ -1,0 +1,7 @@
+{
+  "sections": {
+    "main": { "type": "main-page", "settings": { "show_title": false, "use_page_metafield": true } },
+    "contact": { "type": "nnie-contact", "disabled": true, "settings": { "text": "info@nnie-studio.com", "link": "mailto:info@nnie-studio.com", "use_page_metafield": true } }
+  },
+  "order": ["main", "contact"]
+}

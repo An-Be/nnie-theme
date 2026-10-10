@@ -1,0 +1,80 @@
+{%- comment -%}
+  Editable version of the About layout: big centered statement and two
+  offset points with dots. Same classes/CSS as the original page.
+{%- endcomment -%}
+<div class="page" {% render 'page-background-style', section: section %}>
+  <main>
+    <div class="about">
+      <p class="about-header">{{ section.settings.heading }}</p>
+      {%- if section.blocks.size > 0 -%}
+        <div class="about-points">
+          {%- for block in section.blocks -%}
+            <div class="about-point-{{ forloop.index }}" {{ block.shopify_attributes }}>
+              <div class="about-circle"></div>
+              <p>{{ block.settings.text }}</p>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </main>
+</div>
+
+{% schema %}
+{
+  "name": "About",
+  "max_blocks": 2,
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Statement",
+      "default": "Slow-made, non-seasonal projects and ideas for the sacred act of self-decoration."
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background photo"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_page_metafield",
+      "label": "Otherwise use the page's own background photo",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "background_position",
+      "label": "Background focus",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "top", "label": "Top" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "center"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Point",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About",
+      "blocks": [
+        { "type": "point", "settings": { "text": "We center modular design and play." } },
+        { "type": "point", "settings": { "text": "Materials are secondhand or deadstock." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

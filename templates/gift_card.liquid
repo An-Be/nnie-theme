@@ -1,0 +1,36 @@
+{%- layout none -%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ 'gift_card.title' | t }} – {{ shop.name }}</title>
+    {{ content_for_header }}
+    {{ 'nnie-tailwind.css' | asset_url | stylesheet_tag }}
+    {{ 'nnie.css' | asset_url | stylesheet_tag }}
+    {% render 'theme-styles' %}
+    <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
+  </head>
+  <body class="default-background nnie-no-fade">
+    <div class="nnie-simple-page" style="text-align: center">
+      <h1>{{ shop.name }}</h1>
+      <p>{{ 'gift_card.title' | t }}: {{ gift_card.initial_value | money }}</p>
+      {%- if gift_card.enabled == false or gift_card.expired -%}
+        <p>{{ 'gift_card.expired' | t }}</p>
+      {%- endif -%}
+      <p style="font-size: 24px; letter-spacing: 2px; margin: 2rem 0">{{ gift_card.code | format_code }}</p>
+      <p>{{ 'gift_card.balance' | t }}: {{ gift_card.balance | money }}</p>
+      <div id="QrCode" data-identifier="{{ gift_card.qr_identifier }}" style="display: inline-block; margin: 2rem 0"></div>
+      <p><a href="{{ shop.url }}">{{ 'gift_card.shop_link' | t }}</a></p>
+      {%- if gift_card.pass_url -%}
+        <p><a href="{{ gift_card.pass_url }}"><img src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}" width="120" height="40" alt="Add to Apple Wallet" loading="lazy"></a></p>
+      {%- endif -%}
+    </div>
+    <script>
+      window.addEventListener('load', () => {
+        const el = document.getElementById('QrCode');
+        if (window.QRCode && el) new QRCode(el, { text: el.dataset.identifier, width: 120, height: 120 });
+      });
+    </script>
+  </body>
+</html>

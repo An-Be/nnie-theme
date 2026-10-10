@@ -1,0 +1,7 @@
+{
+  "sections": {
+    "main": { "type": "main-page", "settings": { "show_title": false, "use_page_metafield": true } },
+    "info": { "type": "nnie-legal", "disabled": true, "settings": {} }
+  },
+  "order": ["main", "info"]
+}

@@ -1,0 +1,89 @@
+/*
+* --------------------------------------------------
+* routes/products.$handle.tsx
+* --------------------------------------------------
+*/
+//@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+.product {
+  font-size: 12px;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  font-family: var(--font-mono);
+  background-color: var(--product-bg, #fff);
+  gap: 1rem;
+  margin: 3rem;
+  @media (max-width: 40rem) {
+    background-color: var(--product-mobile-bg, #eaeab2);
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    margin: 0;
+    .product-image {
+      display: flex;
+      overflow-x: scroll;
+      margin-top: 7rem;
+    }
+    .product-title-price {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 5px;
+
+      h1 {
+        margin-bottom: 0;
+      }
+    }
+    .product-main {
+      margin-top: 0;
+    }
+  }
+  .product-title-price {
+    margin: 5px;
+  }
+}
+
+.product-image {
+  margin-top: 10rem;
+}
+
+.product-image img {
+  height: auto;
+  width: 100%;
+}
+
+.product-main {
+  align-self: start;
+  position: sticky;
+  top: 6rem;
+  margin-top: 10rem;
+  h1 {
+    text-align: left;
+    letter-spacing: 0px;
+    color: var(--product-text-color, #000);
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0;
+  }
+  .product-description,
+  .product-measurements,
+  .product-details,
+  .product-material {
+    font-size: 12px;
+  }
+}
+
+.product-price-on-sale {
+  display: flex;
+  grid-gap: 0.5rem;
+}
+
+.product-price-on-sale s {
+  opacity: 0.5;
+}
+
+.product-options-grid {
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 0.75rem;
+}

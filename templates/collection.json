@@ -1,0 +1,4 @@
+{
+  "sections": { "main": { "type": "main-collection", "settings": { "layout": "auto", "products_per_page": 8 } } },
+  "order": ["main"]
+}

@@ -1,0 +1,48 @@
+{%- liquid
+  if section.settings.image != blank
+    assign banner_url = section.settings.image | image_url: width: 2400
+  endif
+-%}
+<div
+  class="nnie-section nnie-image-banner"
+  style="{% if banner_url %}background-image: url('{{ banner_url }}');{% else %}background-color: #262626;{% endif %} --banner-height: {{ section.settings.height }}vh; --section-text: {{ section.settings.text_color }}; --banner-v: {{ section.settings.vertical }};"
+>
+  <div>
+    {%- if section.settings.heading != blank -%}
+      <h2>{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <div style="font-family: var(--font-mono); font-size: 14px; margin-top: 1rem">{{ section.settings.text }}</div>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a class="nnie-button" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image banner",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "range", "id": "height", "label": "Height", "min": 20, "max": 100, "step": 5, "unit": "vh", "default": 70 },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading" },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "text", "id": "button_label", "label": "Button text" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#ffffff" },
+    {
+      "type": "select",
+      "id": "vertical",
+      "label": "Text position",
+      "options": [
+        { "value": "flex-start", "label": "Top" },
+        { "value": "center", "label": "Middle" },
+        { "value": "flex-end", "label": "Bottom" }
+      ],
+      "default": "center"
+    }
+  ],
+  "presets": [{ "name": "Image banner" }]
+}
+{% endschema %}

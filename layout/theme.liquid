@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
+    {%- else -%}
+      <link rel="icon" type="image/png" href="{{ 'nnie-favicon.png' | asset_url }}">
+    {%- endif -%}
+
+    {%- liquid
+      case template.name
+        when 'index'
+          assign nnie_title = 'general.home' | t
+        when 'collection'
+          if collection.handle == 'all'
+            assign nnie_title = 'general.products' | t
+          else
+            assign nnie_title = collection.title
+          endif
+        when 'product'
+          assign nnie_title = product.title
+        when 'page'
+          assign nnie_title = page.title
+        else
+          assign nnie_title = page_title
+      endcase
+    -%}
+    <title>
+      {%- if settings.title_prefix != blank -%}{{ settings.title_prefix }} | {% endif -%}
+      {{- nnie_title -}}
+      {%- if current_page != 1 %} – {{ 'general.page' | t: page: current_page }}{% endif -%}
+    </title>
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {% render 'meta-tags' %}
+
+    {{ content_for_header }}
+
+    {{ 'nnie-tailwind.css' | asset_url | stylesheet_tag }}
+    {{ 'nnie.css' | asset_url | stylesheet_tag }}
+    {% render 'theme-styles' %}
+
+    <script src="{{ 'nnie.js' | asset_url }}" defer="defer"></script>
+  </head>
+
+  {%- capture nnie_body_class -%}{%- render 'body-class' -%}{%- endcapture -%}
+  <body class="{{ nnie_body_class }}{% unless settings.enable_fade %} nnie-no-fade{% endunless %}" data-fade-delay="{{ settings.fade_delay }}">
+    {% sections 'header-group' %}
+
+    <div class="grid-container">
+      <main class="main-content" id="MainContent" role="main">
+        {{ content_for_layout }}
+      </main>
+      {% sections 'footer-group' %}
+    </div>
+
+    <script>
+      window.nnie = {
+        routes: {
+          root: {{ routes.root_url | json }},
+          cartAdd: {{ routes.cart_add_url | append: '.js' | json }},
+          cartChange: {{ routes.cart_change_url | append: '.js' | json }},
+          cart: {{ routes.cart_url | json }}
+        }
+      };
+    </script>
+  </body>
+</html>

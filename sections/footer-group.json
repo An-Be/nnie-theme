@@ -1,0 +1,28 @@
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "instagram": {
+          "type": "link",
+          "settings": {
+            "label": "Instagram",
+            "url": "https://www.instagram.com/nnie_studio",
+            "new_tab": true
+          }
+        }
+      },
+      "block_order": ["instagram"],
+      "settings": {
+        "info_text": "NNIE Studio 2024",
+        "email": "info@nnie-studio.com",
+        "show_subscribe": true,
+        "menu": "footer",
+        "show_big_logo": true
+      }
+    }
+  },
+  "order": ["footer"]
+}
