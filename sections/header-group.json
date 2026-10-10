@@ -10,9 +10,12 @@
         "cart_label": "CART",
         "hover_trigger": "SHOP",
         "use_default_hover_image": true,
-        "hover_home_only": true
+        "hover_home_only": true,
+        "hidden_links": "JOURNAL"
       }
     }
   },
-  "order": ["header"]
+  "order": [
+    "header"
+  ]
 }

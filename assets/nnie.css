@@ -1046,7 +1046,7 @@ button.reset:hover:not(:has(> *)) {
 @media (max-width: 40rem) {
   .collection {
     background-color: var(--shop-mobile-bg, #eaeab2);
-    height: calc(var(--vh, 1vh) * 100);
+    min-height: calc(var(--vh, 1vh) * 100);
   }
 }
 
@@ -1578,6 +1578,11 @@ aside.cart a {
   margin-top: 2rem;
   display: flex;
   gap: 1rem;
+}
+
+/* Editorial shop layout: one product per row, two photos side by side */
+.products-grid--editorial {
+  grid-template-columns: 1fr;
 }
 
 /* Collection "Load more" links */

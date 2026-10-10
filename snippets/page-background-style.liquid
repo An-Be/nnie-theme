@@ -1,18 +1,27 @@
 {%- comment -%}
-  Inline background style for a page wrapper. Uses (in order): the section's
-  background image, then the page's "about_background_image" metafield (what
-  the original site used), otherwise nothing. Params: section
+  Inline background style for a page wrapper. First match wins:
+    1. The page's own "Background image" field (custom.background_image,
+       a File field: upload right on the page in Online Store → Pages)
+    2. The section's "Background photo" in the theme editor
+    3. The page's old "About background image" field
+       (custom.about_background_image, an image URL: what the Hydrogen site used)
+  Params: section
 {%- endcomment -%}
 {%- liquid
   assign bg_url = blank
-  if section.settings.background_image != blank
+  assign file_field = page.metafields.custom.background_image
+  assign legacy_field = page.metafields.custom.about_background_image
+  if section.settings.use_page_metafield and file_field != blank
+    assign bg_image = file_field.value.preview_image | default: file_field.value
+    assign bg_url = bg_image | image_url: width: 2400
+  elsif section.settings.background_image != blank
     assign bg_url = section.settings.background_image | image_url: width: 2400
-  elsif section.settings.use_page_metafield and page.metafields.custom.about_background_image != blank
-    assign bg_field = page.metafields.custom.about_background_image
-    if bg_field.type == 'file_reference'
-      assign bg_url = bg_field.value | image_url: width: 2400
+  elsif section.settings.use_page_metafield and legacy_field != blank
+    if legacy_field.type == 'file_reference'
+      assign bg_image = legacy_field.value.preview_image | default: legacy_field.value
+      assign bg_url = bg_image | image_url: width: 2400
     else
-      assign bg_url = bg_field.value
+      assign bg_url = legacy_field.value
     endif
   endif
 -%}

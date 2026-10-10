@@ -305,6 +305,11 @@ aside.cart a {
   }
 }
 
+/* Editorial shop layout: one product per row, two photos side by side */
+.products-grid--editorial {
+  grid-template-columns: 1fr;
+}
+
 /* Collection "Load more" links */
 .collection-pagination-link {
   cursor: pointer;

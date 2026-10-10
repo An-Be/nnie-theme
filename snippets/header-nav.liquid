@@ -2,9 +2,26 @@
   Header navigation. Used for both the desktop column and the mobile drawer.
   Params: viewport ('desktop' | 'mobile'), section
 {%- endcomment -%}
-{%- assign menu = linklists[section.settings.menu] -%}
+{%- liquid
+  assign menu = linklists[section.settings.menu]
+  assign hidden_titles = section.settings.hidden_links | downcase | split: ','
+-%}
 <nav class="header-menu-{{ viewport }}" role="navigation">
   {%- for link in menu.links -%}
+    {%- liquid
+      assign this_title_check = link.title | strip | downcase
+      assign is_hidden = false
+      if link.url == blank
+        assign is_hidden = true
+      endif
+      for hidden_title in hidden_titles
+        assign hidden_clean = hidden_title | strip
+        if hidden_clean != blank and hidden_clean == this_title_check
+          assign is_hidden = true
+        endif
+      endfor
+    -%}
+    {%- if is_hidden -%}{%- continue -%}{%- endif -%}
     {%- liquid
       assign is_hover_trigger = false
       if section.settings.hover_image != blank or section.settings.use_default_hover_image

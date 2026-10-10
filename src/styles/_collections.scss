@@ -4,7 +4,9 @@
   background-color: var(--shop-bg, #fff);
   @media (max-width: 40rem) {
     background-color: var(--shop-mobile-bg, #eaeab2);
-    height: calc(var(--vh, 1vh) * 100);
+    // was height: 100vh, which let products spill under the footer once
+    // there were more than fit on one screen
+    min-height: calc(var(--vh, 1vh) * 100);
   }
 }
 .product-item-wrapper {

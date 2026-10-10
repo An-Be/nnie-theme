@@ -36,7 +36,7 @@
       </a>
     {%- endif -%}
 
-    <div class="products-grid" data-products-grid>
+    <div class="products-grid{% if layout == 'editorial' %} products-grid--editorial{% endif %}" data-products-grid>
       {%- for product in collection.products -%}
         {%- if layout == 'editorial' -%}
           {% render 'product-item-editorial', product: product, section: section, index: forloop.index %}
