@@ -1,19 +1,15 @@
 {
   "sections": {
-    "main": { "type": "main-page", "settings": { "show_title": false, "use_page_metafield": true } },
-    "about": {
-      "type": "nnie-about",
-      "disabled": true,
-      "blocks": {
-        "point-1": { "type": "point", "settings": { "text": "We center modular design and play, and source materials and fabric secondhand or deadstock." } },
-        "point-2": { "type": "point", "settings": { "text": "Pieces we don’t make in-house are made with a local seamstress studio, and we ship in compostable or biodegradable packaging whenever we can." } }
-      },
-      "block_order": ["point-1", "point-2"],
+    "main": {
+      "type": "main-page",
       "settings": {
-        "heading": "Slow-made, non-seasonal projects and ideas for the sacred act of self-decoration.",
+        "layout": "about",
+        "show_title": false,
         "use_page_metafield": true
       }
     }
   },
-  "order": ["main", "about"]
+  "order": [
+    "main"
+  ]
 }

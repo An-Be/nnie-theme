@@ -1,4 +1,15 @@
 {
-  "sections": { "main": { "type": "main-page", "settings": { "show_title": false, "use_page_metafield": true } } },
-  "order": ["main"]
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "layout": "auto",
+        "show_title": false,
+        "use_page_metafield": true
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
 }

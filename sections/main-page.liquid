@@ -1,12 +1,104 @@
 {%- comment -%}
-  Default page: shows the page's content from Online Store → Pages, with the
-  page's background photo behind it.
+  Pages (About, Contact, Terms, Returns, Care, Privacy and any new page).
+
+  The client types plain text in Online Store → Pages; this section lays it
+  out in the NNIE design, so no HTML is needed:
+    About   → first paragraph is the big statement, the rest are the dotted points
+    Contact → the text goes big and centered over the background photo
+    Info    → the page title as the small heading, the text in a narrow column
+    Plain   → the text as-is
+
+  "Automatic" picks the layout from the page's template or handle, and keeps
+  rendering old pages that still contain the original hand-written HTML
+  exactly as before, so nothing breaks while pages are being cleaned up.
 {%- endcomment -%}
+{%- liquid
+  assign layout = section.settings.layout
+  if layout == 'auto'
+    assign layout = 'plain'
+    capture page_style
+      render 'body-class'
+    endcapture
+    case page_style
+      when 'about-background'
+        assign layout = 'about'
+      when 'contact-background'
+        assign layout = 'contact'
+      when 'pages-background'
+        assign layout = 'info'
+    endcase
+  endif
+
+  comment
+    Pages that still contain the original hand-written HTML render as-is.
+  endcomment
+  if page.content contains 'class="about' or page.content contains 'class="contact' or page.content contains 'class="terms' or page.content contains 'class="returns' or page.content contains 'class="privacy' or page.content contains 'class="care'
+    assign layout = 'legacy'
+  endif
+
+  assign paragraphs = page.content | replace: '<p>', '' | replace: '<p dir="ltr">', '' | split: '</p>'
+-%}
 <div class="page" {% render 'page-background-style', section: section %}>
-  {%- if section.settings.show_title -%}
+  {%- if section.settings.show_title and layout != 'info' -%}
     <h1>{{ page.title }}</h1>
   {%- endif -%}
-  <main>{{ page.content }}</main>
+  <main>
+    {%- case layout -%}
+      {%- when 'about' -%}
+        {%- liquid
+          assign statement = ''
+          assign found_statement = false
+          assign points = ''
+          for paragraph in paragraphs
+            assign text = paragraph | strip
+            if text == blank or text == '<br>'
+              continue
+            endif
+            if found_statement == false
+              assign statement = text
+              assign found_statement = true
+            else
+              assign points = points | append: text | append: '|||'
+            endif
+          endfor
+          assign points = points | split: '|||'
+        -%}
+        <div class="about">
+          <p class="about-header">{{ statement }}</p>
+          {%- if points.size > 0 -%}
+            <div class="about-points">
+              {%- for point in points -%}
+                {%- assign style_number = forloop.index | modulo: 2 -%}
+                {%- if style_number == 0 -%}{%- assign style_number = 2 -%}{%- endif -%}
+                <div class="about-point-{{ style_number }}">
+                  <div class="about-circle"></div>
+                  <p>{{ point }}</p>
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- when 'contact' -%}
+        <div class="contact">
+          {%- for paragraph in paragraphs -%}
+            {%- assign text = paragraph | strip -%}
+            {%- if text == blank or text == '<br>' -%}{%- continue -%}{%- endif -%}
+            <p>{{ text }}</p>
+          {%- endfor -%}
+        </div>
+      {%- when 'info' -%}
+        <div class="terms">
+          <div class="terms-header">
+            <h1>{{ section.settings.info_heading | default: page.title }}</h1>
+          </div>
+          <div class="terms-info">
+            {{ page.content }}
+          </div>
+        </div>
+      {%- else -%}
+        {{ page.content }}
+    {%- endcase -%}
+  </main>
 </div>
 
 {% schema %}
@@ -15,30 +107,58 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Text comes from Online Store → Pages. Use the sections in \"Add section\" (About, Contact, Info page) for layouts you can edit right here."
+      "content": "Type the page's text in Online Store → Pages. No HTML needed, this section lays it out."
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "auto", "label": "Automatic (based on the page)" },
+        { "value": "about", "label": "About: statement + dotted points" },
+        { "value": "contact", "label": "Contact: big centered text" },
+        { "value": "info", "label": "Info: small heading + narrow text (Terms, Returns...)" },
+        { "value": "plain", "label": "Plain text" }
+      ],
+      "default": "auto",
+      "info": "About: the first paragraph becomes the big statement and each following paragraph a dotted point."
+    },
+    {
+      "type": "text",
+      "id": "info_heading",
+      "label": "Info layout heading",
+      "info": "Leave empty to use the page title."
     },
     {
       "type": "checkbox",
       "id": "show_title",
-      "label": "Show page title",
+      "label": "Show page title above the text",
       "default": false
     },
     {
-      "type": "image_picker",
-      "id": "background_image",
-      "label": "Background photo"
+      "type": "header",
+      "content": "Background photo"
+    },
+    {
+      "type": "paragraph",
+      "content": "Best: upload it on the page itself in Online Store → Pages (\"Background image\" field), so each page has its own."
     },
     {
       "type": "checkbox",
       "id": "use_page_metafield",
-      "label": "Otherwise use the page's own background photo",
-      "default": true,
-      "info": "The \"About background image\" field at the bottom of each page in the admin."
+      "label": "Use the photo set on each page",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Fallback photo",
+      "info": "Shows on every page using this template that doesn't have its own photo."
     },
     {
       "type": "select",
       "id": "background_position",
-      "label": "Background focus",
+      "label": "Photo focus",
       "options": [
         { "value": "center", "label": "Center" },
         { "value": "top", "label": "Top" },

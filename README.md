@@ -75,7 +75,19 @@ The body class (which drives header colors and backgrounds) follows the original
 
 To give a new page one of these styles, pick its template on the page in the admin.
 
-The About / Contact / Info templates ship with an editable section already added but **hidden** (eye icon in the editor). The page's existing HTML keeps rendering exactly as before until she turns it on and hides "Page content". Check the prefilled copy in the hidden About section before enabling it.
+### Pages without HTML
+
+Page text is typed as plain text in **Online Store → Pages** and the theme lays it out:
+
+- **About**: the first paragraph is the big statement, every paragraph after it is a dotted point.
+- **Contact**: the text goes big and centered over the background photo.
+- **Terms / Returns / Care / Privacy**: the page title becomes the small heading, the text sits in the narrow column.
+
+Pages that still contain the original hand-written HTML (`class="about"`, `class="terms"`, etc.) keep rendering exactly as before, so they can be cleaned up one at a time: open the page, click the `<>` button to see the HTML, replace it with plain text, save.
+
+### Background photos
+
+Create a page field in **Settings → Custom data → Pages → Add definition**: name "Background image", key `custom.background_image`, type **File** (images). Each page then gets an upload box at the bottom of its edit screen. Priority: that field, then the "Fallback photo" in the editor, then the old `custom.about_background_image` URL field the Hydrogen site used.
 
 ## Setup
 

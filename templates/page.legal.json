@@ -1,7 +1,15 @@
 {
   "sections": {
-    "main": { "type": "main-page", "settings": { "show_title": false, "use_page_metafield": true } },
-    "info": { "type": "nnie-legal", "disabled": true, "settings": {} }
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "layout": "info",
+        "show_title": false,
+        "use_page_metafield": true
+      }
+    }
   },
-  "order": ["main", "info"]
+  "order": [
+    "main"
+  ]
 }
