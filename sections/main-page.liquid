@@ -95,8 +95,10 @@
             {{ page.content }}
           </div>
         </div>
-      {%- else -%}
+      {%- when 'legacy' -%}
         {{ page.content }}
+      {%- else -%}
+        <div class="page-plain">{{ page.content }}</div>
     {%- endcase -%}
   </main>
 </div>

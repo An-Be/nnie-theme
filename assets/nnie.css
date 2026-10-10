@@ -1815,3 +1815,95 @@ aside.size-guide a {
 .nnie-recommendations[hidden] {
   display: none;
 }
+
+/*
+* --------------------------------------------------
+* Plain pages + Shopify's own policy pages (/policies/...)
+* --------------------------------------------------
+*/
+.page-plain {
+  padding: 10rem 40px 5rem;
+  max-width: 680px;
+  font-size: 14px;
+}
+.page-plain a {
+  text-decoration: underline;
+}
+.page-plain p {
+  margin-bottom: 1rem;
+}
+
+/* Shopify renders policies itself; this restyles them to match the Info pages */
+.shopify-policy__container {
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: var(--font-mono);
+  color: var(--color-red);
+}
+
+/* Old policies that still contain the original hand-written HTML bring their own heading */
+.shopify-policy__container:has(.terms, .returns, .privacy, .care) .shopify-policy__title {
+  display: none;
+}
+
+.shopify-policy__container:not(:has(.terms, .returns, .privacy, .care)) {
+  display: grid;
+  grid-template-columns: 40px 385px;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 10rem 40px 5rem !important;
+}
+.shopify-policy__container:not(:has(.terms, .returns, .privacy, .care)) .shopify-policy__title {
+  text-align: left;
+}
+.shopify-policy__container:not(:has(.terms, .returns, .privacy, .care)) .shopify-policy__title h1 {
+  font-size: 14px;
+  letter-spacing: 0;
+  color: var(--color-red);
+  margin: 0 0 0 21px;
+  width: max-content;
+}
+.shopify-policy__container:not(:has(.terms, .returns, .privacy, .care)) .shopify-policy__title + * {
+  font-size: 14px;
+}
+.shopify-policy__container:not(:has(.terms, .returns, .privacy, .care)) .shopify-policy__title + * p {
+  margin-bottom: 1rem;
+  font-size: 14px;
+}
+.shopify-policy__container:not(:has(.terms, .returns, .privacy, .care)) .shopify-policy__title + * a {
+  text-decoration: underline;
+}
+@media (max-width: 40rem) {
+  .shopify-policy__container:not(:has(.terms, .returns, .privacy, .care)) {
+    grid-template-columns: 1fr;
+    margin: 7rem 20px 5rem !important;
+    color: var(--pages-mobile-text, #fff);
+  }
+  .shopify-policy__container:not(:has(.terms, .returns, .privacy, .care)) .shopify-policy__title h1 {
+    color: var(--pages-mobile-text, #fff);
+    margin: 0 0 1rem;
+  }
+}
+
+/* Forms inside Info pages (e.g. Shopify's "Your Privacy Choices" page) */
+.terms-info {
+  color: var(--color-red);
+  font-size: 14px;
+}
+.terms-info label,
+.terms-info button {
+  color: inherit;
+  font-family: inherit;
+}
+.terms-info button {
+  border: 1px solid currentColor;
+  padding: 5px 20px;
+  cursor: pointer;
+}
+
+@media (max-width: 40rem) {
+  body.pages-background .terms-info {
+    color: var(--pages-mobile-text, #fff);
+  }
+}

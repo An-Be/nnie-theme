@@ -12,6 +12,9 @@
 {%- endcomment -%}
 {%- liquid
   assign nnie_body_class = 'default-background'
+  if request.page_type == 'policy'
+    assign nnie_body_class = 'pages-background'
+  endif
   case template.name
     when 'index'
       assign nnie_body_class = 'home-background'
@@ -39,7 +42,7 @@
               assign nnie_body_class = 'about-background'
             when 'contact'
               assign nnie_body_class = 'contact-background'
-            when 'privacy-policy', 'returns', 'care', 'terms'
+            when 'privacy-policy', 'returns', 'care', 'terms', 'data-sharing-opt-out'
               assign nnie_body_class = 'pages-background'
           endcase
       endcase
