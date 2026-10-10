@@ -1,17 +1,17 @@
 {%- comment -%}
-  Editable version of the About layout: big centered statement and two
-  offset points with dots. Same classes/CSS as the original page.
+  About page: big centered statement, two offset points with dots, photo
+  behind. Everything is edited right here in the theme editor.
 {%- endcomment -%}
-<div class="page" {% render 'page-background-style', section: section %}>
+<div class="page" {% render 'page-background-style', section: section, section_first: true %}>
   <main>
     <div class="about">
-      <p class="about-header">{{ section.settings.heading }}</p>
+      <p class="about-header">{{ section.settings.heading | newline_to_br }}</p>
       {%- if section.blocks.size > 0 -%}
         <div class="about-points">
           {%- for block in section.blocks -%}
             <div class="about-point-{{ forloop.index }}" {{ block.shopify_attributes }}>
               <div class="about-circle"></div>
-              <p>{{ block.settings.text }}</p>
+              <p>{{ block.settings.text | newline_to_br }}</p>
             </div>
           {%- endfor -%}
         </div>
@@ -37,15 +37,9 @@
       "label": "Background photo"
     },
     {
-      "type": "checkbox",
-      "id": "use_page_metafield",
-      "label": "Otherwise use the page's own background photo",
-      "default": true
-    },
-    {
       "type": "select",
       "id": "background_position",
-      "label": "Background focus",
+      "label": "Photo focus",
       "options": [
         { "value": "center", "label": "Center" },
         { "value": "top", "label": "Top" },

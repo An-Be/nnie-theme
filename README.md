@@ -40,19 +40,17 @@ The body class (which drives header colors and backgrounds) follows the original
 
 To give a new page one of these styles, pick its template on the page in the admin.
 
-### Pages without HTML
+### About and Contact
 
-Page text is typed as plain text in **Online Store → Pages** and the theme lays it out:
+Both are edited entirely in the theme editor: text, points and background photo, no HTML.
 
-- **About**: the first paragraph is the big statement, every paragraph after it is a dotted point.
-- **Contact**: the text goes big and centered over the background photo.
-- **Terms / Returns / Care / Privacy**: the page title becomes the small heading, the text sits in the narrow column.
+One-time setup: in **Online Store → Pages**, open About and set **Template** to `about`, then open Contact and set it to `contact`. After that, Customize → About page (or Contact page) shows the fields. They come prefilled with the live site's text and photos.
 
-Pages that still contain the original hand-written HTML (`class="about"`, `class="terms"`, etc.) keep rendering exactly as before, so they can be cleaned up one at a time: open the page, click the `<>` button to see the HTML, replace it with plain text, save.
+### Terms, Returns, Care, Privacy and other pages
 
-### Background photos
+Typed as plain text in **Online Store → Pages**. The page title becomes the small heading and the text sits in the narrow column. Pages that still contain the original hand-written HTML (`class="terms"` etc.) keep rendering exactly as before, so they can be cleaned up one at a time: open the page, click `<>`, replace the HTML with plain text, save.
 
-Create a page field in **Settings → Custom data → Pages → Add definition**: name "Background image", key `custom.background_image`, type **File** (images). Each page then gets an upload box at the bottom of its edit screen. Priority: that field, then the "Fallback photo" in the editor, then the old `custom.about_background_image` URL field the Hydrogen site used.
+Optional per-page background photo: create a page field in **Settings → Custom data → Pages** (name "Background image", key `custom.background_image`, type File). The old `custom.about_background_image` URL field still works.
 
 ## Setup
 
