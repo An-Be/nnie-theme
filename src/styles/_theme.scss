@@ -625,3 +625,50 @@ aside.size-guide {
     color: var(--pages-mobile-text, #fff);
   }
 }
+
+/*
+* Cart drawer: grow with the items (up to the screen height), scroll the item
+* list, and keep Totals / Checkout pinned underneath it. The original drawer
+* was a fixed 350px box with the totals laid on top of the items, so anything
+* past the second item was hidden behind them.
+*/
+aside.cart {
+  height: auto;
+  min-height: 350px;
+  max-height: calc(var(--vh, 1vh) * 100 - 112px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  > main {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    margin-top: 6px; /* + header's 10px = the original 16px (margins no longer collapse in flex) */
+    margin-bottom: 0;
+  }
+  .cart-main {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+  }
+  .cart-details {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  [aria-labelledby='cart-lines'] {
+    flex: 0 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .cart-summary-aside {
+    position: static;
+    flex-shrink: 0;
+    margin-top: auto;
+  }
+}
