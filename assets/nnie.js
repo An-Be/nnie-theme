@@ -85,7 +85,13 @@
     if (!html || !target) return;
     const doc = new DOMParser().parseFromString(html, 'text/html');
     const fresh = doc.querySelector('[data-cart-main]');
-    if (fresh) target.replaceChildren(fresh);
+    if (!fresh) return;
+    // Keep the item list where it was, so changing item 8 doesn't jump back to item 1.
+    const list = target.querySelector('[aria-labelledby="cart-lines"]');
+    const scrollTop = list ? list.scrollTop : 0;
+    target.replaceChildren(fresh);
+    const freshList = target.querySelector('[aria-labelledby="cart-lines"]');
+    if (freshList) freshList.scrollTop = scrollTop;
   };
 
   const refreshCart = async () => {
