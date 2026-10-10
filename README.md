@@ -79,7 +79,7 @@ To give a new page one of these styles, pick its template on the page in the adm
 
 Both are edited entirely in the theme editor: text, points and background photo, no HTML.
 
-One-time setup: in **Online Store → Pages**, open About and set **Template** to `about`, then open Contact and set it to `contact`. After that, Customize → About page (or Contact page) shows the fields. They come prefilled with the live site's text and photos.
+One-time setup: in **Online Store → Pages**, open About and set **Template** to `about`, then open Contact and set it to `contact`. After that, Customize → About page (or Contact page) shows the fields. They come prefilled with the live site's text. About uses the NNIE photo bundled with the theme until a different one is picked; Contact uses its photo from Files.
 
 ### Terms, Returns, Care, Privacy and other pages
 

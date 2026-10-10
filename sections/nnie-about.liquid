@@ -2,7 +2,17 @@
   About page: big centered statement, two offset points with dots, photo
   behind. Everything is edited right here in the theme editor.
 {%- endcomment -%}
-<div class="page" {% render 'page-background-style', section: section, section_first: true %}>
+{%- liquid
+  if section.settings.background_image != blank
+    assign about_bg = section.settings.background_image | image_url: width: 2400
+  else
+    assign about_bg = 'nnie-about-background.jpg' | asset_url
+  endif
+-%}
+<div
+  class="page"
+  style="background-image: url({{ about_bg }}); background-size: cover; background-position: {{ section.settings.background_position }};"
+>
   <main>
     <div class="about">
       <p class="about-header">{{ section.settings.heading | newline_to_br }}</p>
@@ -29,12 +39,13 @@
       "type": "textarea",
       "id": "heading",
       "label": "Statement",
-      "default": "A short statement about the studio."
+      "default": "Slow-made, non-seasonal projects and ideas for the sacred act of self-decoration."
     },
     {
       "type": "image_picker",
       "id": "background_image",
-      "label": "Background photo"
+      "label": "Background photo",
+      "info": "Leave empty to use the default NNIE photo."
     },
     {
       "type": "select",
@@ -65,8 +76,8 @@
     {
       "name": "About",
       "blocks": [
-        { "type": "point", "settings": { "text": "First point" } },
-        { "type": "point", "settings": { "text": "Second point" } }
+        { "type": "point", "settings": { "text": "Centering modular design, and play." } },
+        { "type": "point", "settings": { "text": "Materials and fabric are always sourced from secondhand or deadstock suppliers. When pieces are not made in-house, we work with a local seamstress studio. We use earth friendly shipping materials and prioritize compostable or biodegradable packaging when possible." } }
       ]
     }
   ]
