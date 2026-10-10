@@ -24,6 +24,17 @@
       {%- endif -%}
     {%- endif -%}
 
+    {%- if layout == 'editorial' and section.settings.show_intro -%}
+      <div class="collection-intro">
+        {%- if section.settings.intro_show_title -%}
+          <h1>{{ collection.title }}</h1>
+        {%- endif -%}
+        {%- if collection.description != blank -%}
+          <div class="collection-intro__text">{{ collection.description }}</div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
     {%- if paginate.previous -%}
       <a
         href="{{ paginate.previous.url }}"
@@ -101,6 +112,19 @@
     },
     {
       "type": "checkbox",
+      "id": "show_intro",
+      "label": "Show collection intro at the top",
+      "default": false,
+      "info": "Uses the collection's title and description from Products → Collections."
+    },
+    {
+      "type": "checkbox",
+      "id": "intro_show_title",
+      "label": "Include the title in the intro",
+      "default": true
+    },
+    {
+      "type": "checkbox",
       "id": "show_second_image",
       "label": "Show second photo next to each product",
       "default": true
@@ -110,7 +134,17 @@
       "id": "show_caption",
       "label": "Show caption under the second photo",
       "default": true,
-      "info": "The caption is the photo's alt text. Edit it on the product page in the admin (click the photo → Add alt text)."
+      "info": "Uses the product's \"Shop caption\" field if it's filled in, otherwise the photo's alt text."
+    },
+    {
+      "type": "select",
+      "id": "caption_source",
+      "label": "Caption comes from",
+      "options": [
+        { "value": "metafield", "label": "Shop caption field, then photo alt text" },
+        { "value": "alt", "label": "Photo alt text only" }
+      ],
+      "default": "metafield"
     },
     {
       "type": "checkbox",
@@ -135,6 +169,29 @@
       "id": "sold_out_label",
       "label": "Sold out label",
       "default": "Sold out"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_low_stock",
+      "label": "Show a low stock label",
+      "default": false,
+      "info": "Only works for products where Shopify tracks inventory."
+    },
+    {
+      "type": "range",
+      "id": "low_stock_threshold",
+      "label": "Low stock means this many or fewer",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "text",
+      "id": "low_stock_label",
+      "label": "Low stock label",
+      "default": "Only [count] left",
+      "info": "[count] is replaced with the number left."
     },
     {
       "type": "header",

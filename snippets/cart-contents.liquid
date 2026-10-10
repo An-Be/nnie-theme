@@ -86,6 +86,29 @@
     </div>
     {%- if cart.item_count > 0 -%}
       <div aria-labelledby="cart-summary" class="{% if layout == 'page' %}cart-summary-page{% else %}cart-summary-aside{% endif %}">
+        {%- if settings.free_shipping_enable and settings.free_shipping_threshold > 0 -%}
+          {%- liquid
+            assign threshold_cents = settings.free_shipping_threshold | times: 100
+            assign remaining = threshold_cents | minus: cart.total_price
+            assign progress = cart.total_price | times: 100 | divided_by: threshold_cents
+            if progress > 100
+              assign progress = 100
+            endif
+          -%}
+          <div class="cart-free-shipping">
+            <p>
+              <small>
+                {%- if remaining > 0 -%}
+                  {%- assign remaining_money = remaining | money -%}
+                  {{ settings.free_shipping_remaining | replace: '[amount]', remaining_money }}
+                {%- else -%}
+                  {{ settings.free_shipping_reached }}
+                {%- endif -%}
+              </small>
+            </p>
+            <div class="cart-free-shipping__bar"><span style="width: {{ progress }}%"></span></div>
+          </div>
+        {%- endif -%}
         <h4>{{ settings.cart_totals_label }}</h4>
         <div class="cart-divider"></div>
         <dl class="cart-subtotal">

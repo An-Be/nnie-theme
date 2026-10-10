@@ -33,6 +33,8 @@
         {%- endif -%}
         {%- if section.settings.show_sold_out and product.available == false %}
           {{ section.settings.sold_out_label -}}
+        {%- elsif section.settings.show_low_stock and product.available -%}
+          {%- render 'low-stock', product: product, threshold: section.settings.low_stock_threshold, label: section.settings.low_stock_label, prefix: ' ' -%}
         {%- endif -%}
       </small>
     </div>
@@ -46,7 +48,13 @@
         loading: img_loading
       %}
       {%- if section.settings.show_caption -%}
-        <p class="text-right italic text-xs">{{ second_image.alt }}</p>
+        {%- liquid
+          assign caption = second_image.alt
+          if section.settings.caption_source == 'metafield' and product.metafields.custom.shop_caption != blank
+            assign caption = product.metafields.custom.shop_caption.value
+          endif
+        -%}
+        <p class="text-right italic text-xs">{{ caption }}</p>
       {%- endif -%}
     </div>
   {%- endif -%}

@@ -1,0 +1,27 @@
+{%- comment -%}
+  Prints a low stock label when a tracked product/variant is at or below the
+  threshold. Params: product or variant, threshold, label ("[count]" is
+  replaced), prefix (optional text before the label)
+{%- endcomment -%}
+{%- liquid
+  assign tracked = false
+  assign stock = 0
+  if variant
+    if variant.inventory_management == 'shopify' and variant.inventory_policy == 'deny'
+      assign tracked = true
+      assign stock = variant.inventory_quantity
+    endif
+  elsif product
+    for v in product.variants
+      if v.inventory_management == 'shopify' and v.inventory_policy == 'deny'
+        assign tracked = true
+        if v.inventory_quantity > 0
+          assign stock = stock | plus: v.inventory_quantity
+        endif
+      endif
+    endfor
+  endif
+-%}
+{%- if tracked and stock > 0 and stock <= threshold -%}
+  {{- prefix -}}<span class="nnie-low-stock">{{ label | replace: '[count]', stock }}</span>
+{%- endif -%}

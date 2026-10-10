@@ -1,4 +1,45 @@
 {
-  "sections": { "main": { "type": "main-product", "settings": {} } },
-  "order": ["main"]
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "material": {
+          "type": "detail",
+          "settings": {
+            "key": "material",
+            "style": "material"
+          }
+        },
+        "details": {
+          "type": "detail",
+          "settings": {
+            "key": "details",
+            "style": "details"
+          }
+        },
+        "measurements": {
+          "type": "detail",
+          "settings": {
+            "key": "measurements",
+            "style": "measurements"
+          }
+        }
+      },
+      "block_order": [
+        "material",
+        "details",
+        "measurements"
+      ],
+      "settings": {}
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "disabled": true,
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "recommendations"
+  ]
 }

@@ -299,6 +299,13 @@
         "content": "Fonts are typed as CSS font lists (first one the visitor has wins). Or turn on a Shopify font below."
       },
       {
+        "type": "checkbox",
+        "id": "load_roboto_mono",
+        "label": "Load Roboto Mono for visitors",
+        "default": false,
+        "info": "The original site names Roboto Mono but never loads it, so most visitors see Times New Roman. Turn this on to actually show Roboto Mono. This changes how the site looks."
+      },
+      {
         "type": "text",
         "id": "font_mono_stack",
         "label": "Main font (shop, product, footer)",
@@ -422,6 +429,36 @@
         "id": "cart_note_label",
         "label": "Order note label",
         "default": "Order note"
+      },
+      {
+        "type": "header",
+        "content": "Free shipping message"
+      },
+      {
+        "type": "checkbox",
+        "id": "free_shipping_enable",
+        "label": "Show free shipping progress in the cart",
+        "default": false
+      },
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free shipping starts at",
+        "default": 150,
+        "info": "In your store's currency, without the symbol. Match it to your shipping rates in Settings → Shipping."
+      },
+      {
+        "type": "text",
+        "id": "free_shipping_remaining",
+        "label": "Message before reaching it",
+        "default": "You're [amount] away from free shipping",
+        "info": "[amount] is replaced with what's left."
+      },
+      {
+        "type": "text",
+        "id": "free_shipping_reached",
+        "label": "Message once reached",
+        "default": "Your order ships free"
       }
     ]
   },
@@ -443,6 +480,13 @@
         "step": 50,
         "unit": "ms",
         "default": 500
+      },
+      {
+        "type": "checkbox",
+        "id": "smooth_fade",
+        "label": "Smooth fade",
+        "default": false,
+        "info": "Off matches the original site, where pages jump from dim to full. On fades over 0.3 seconds."
       }
     ]
   }

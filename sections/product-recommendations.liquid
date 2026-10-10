@@ -1,0 +1,55 @@
+{%- comment -%}
+  "You may also like" under the product. Uses Shopify's built-in product
+  recommendations, loaded after the page so it doesn't slow it down.
+{%- endcomment -%}
+<div
+  class="nnie-section nnie-featured nnie-recommendations"
+  data-recommendations
+  {% unless recommendations.performed and recommendations.products_count > 0 %}
+    hidden
+  {% endunless %}
+  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.limit }}&intent={{ section.settings.intent }}"
+  style="--section-bg: {{ section.settings.background }}; --featured-columns: {{ section.settings.columns }}; --section-padding: {{ section.settings.padding }}px;"
+>
+  {%- if recommendations.performed and recommendations.products_count > 0 -%}
+    {%- if section.settings.heading != blank -%}
+      <h2>{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    <div class="nnie-featured__grid">
+      {%- for item in recommendations.products -%}
+        <a class="nnie-featured__item" href="{{ item.url }}">
+          {% render 'hydrogen-image', image: item.featured_image, sizes: '(min-width: 45em) 25vw, 50vw', class: 'nnie-framed' %}
+          <div class="flex items-start justify-between flex-wrap m-1">
+            <span>{{ item.title }}</span>
+            <small>{{ item.price_min | money }}</small>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Product recommendations",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "You may also like" },
+    {
+      "type": "select",
+      "id": "intent",
+      "label": "Show",
+      "options": [
+        { "value": "related", "label": "Related products" },
+        { "value": "complementary", "label": "Complementary products (set in Search & Discovery app)" }
+      ],
+      "default": "related"
+    },
+    { "type": "range", "id": "limit", "label": "Products to show", "min": 2, "max": 8, "step": 1, "default": 4 },
+    { "type": "range", "id": "columns", "label": "Columns on desktop", "min": 2, "max": 6, "step": 1, "default": 4 },
+    { "type": "color", "id": "background", "label": "Background", "default": "#ffffff" },
+    { "type": "range", "id": "padding", "label": "Space above and below", "min": 0, "max": 200, "step": 8, "unit": "px", "default": 64 }
+  ],
+  "presets": [{ "name": "Product recommendations" }]
+}
+{% endschema %}

@@ -12,7 +12,21 @@
         "use_default_hover_image": true,
         "hover_home_only": true
       }
+    },
+    "announcement": {
+      "type": "announcement-bar",
+      "disabled": true,
+      "settings": {
+        "text": "Your announcement here",
+        "background": "#670e2d",
+        "text_color": "#ffffff",
+        "dismissible": true,
+        "show_on_mobile": true
+      }
     }
   },
-  "order": ["header"]
+  "order": [
+    "announcement",
+    "header"
+  ]
 }

@@ -5,12 +5,15 @@
     "page": "Page {{ page }}",
     "close": "Close",
     "password": "Password",
-    "enter": "Enter"
+    "enter": "Enter",
+    "announcement": "Announcement",
+    "search": "Search"
   },
   "cart": {
     "title": "Cart",
     "decrease": "Decrease quantity",
-    "increase": "Increase quantity"
+    "increase": "Increase quantity",
+    "free_shipping_remaining": "You are {{ amount }} away from free shipping"
   },
   "products": {
     "from_price": "From {{ price }}"

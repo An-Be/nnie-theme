@@ -1,0 +1,54 @@
+{%- comment -%}
+  Thin line of text pinned to the very top of the screen. It sits inside the
+  header's top margin, so it doesn't push the page down.
+{%- endcomment -%}
+{%- if section.settings.text != blank -%}
+  {%- assign bar_key = section.settings.text | strip_html | handle | slice: 0, 40 -%}
+  <div
+    class="nnie-announcement{% unless section.settings.show_on_mobile %} nnie-announcement--desktop-only{% endunless %}"
+    data-announcement="{{ bar_key }}"
+    {% if section.settings.dismissible %}
+      data-dismissible
+    {% endif %}
+    style="--announcement-bg: {{ section.settings.background }}; --announcement-text: {{ section.settings.text_color }};"
+    role="region"
+    aria-label="{{ 'general.announcement' | t }}"
+  >
+    {%- if section.settings.link != blank -%}
+      <a href="{{ section.settings.link }}">{{ section.settings.text }}</a>
+    {%- else -%}
+      <span>{{ section.settings.text }}</span>
+    {%- endif -%}
+    {%- if section.settings.dismissible -%}
+      <button type="button" class="nnie-announcement__close" data-announcement-close aria-label="{{ 'general.close' | t }}">×</button>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "class": "nnie-announcement-section",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "Your announcement here"
+    },
+    { "type": "url", "id": "link", "label": "Link (optional)" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#670e2d" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#ffffff" },
+    {
+      "type": "checkbox",
+      "id": "dismissible",
+      "label": "Let visitors close it",
+      "default": true,
+      "info": "Stays closed for that visitor until the text changes."
+    },
+    { "type": "checkbox", "id": "show_on_mobile", "label": "Show on phones", "default": true }
+  ],
+  "presets": [{ "name": "Announcement bar" }]
+}
+{% endschema %}

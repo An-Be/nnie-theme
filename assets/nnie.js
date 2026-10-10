@@ -244,9 +244,9 @@
     }
   });
 
-  /* ---------- Newsletter: submit without leaving the page ---------- */
+  /* ---------- Newsletter + back-in-stock: submit without leaving the page ---------- */
   document.addEventListener('submit', async (event) => {
-    const form = event.target.closest('form.subsribe-form');
+    const form = event.target.closest('form.subsribe-form, form.nnie-ajax-form');
     if (!form) return;
     event.preventDefault();
     const button = form.querySelector('button[type="submit"]');
@@ -266,7 +266,7 @@
       const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
       const freshStatus = doc.querySelector(`#${CSS.escape(form.id)} [data-subscribe-status]`);
       if (status && freshStatus) status.innerHTML = freshStatus.innerHTML;
-      if (response.url.includes('customer_posted=true')) form.reset();
+      if (/(customer|contact)_posted=true/.test(response.url)) form.reset();
     } catch (error) {
       form.submit();
     } finally {
@@ -274,6 +274,74 @@
         button.disabled = false;
         button.textContent = original;
       }
+    }
+  });
+  /* ---------- Announcement bar: remember dismissals ---------- */
+  const storage = {
+    get(key) {
+      try {
+        return window.localStorage.getItem(key);
+      } catch (e) {
+        return null;
+      }
+    },
+    set(key, value) {
+      try {
+        window.localStorage.setItem(key, value);
+      } catch (e) {
+        /* storage unavailable: the bar just comes back next visit */
+      }
+    },
+  };
+  document.querySelectorAll('[data-announcement][data-dismissible]').forEach((bar) => {
+    const key = `nnie-announcement:${bar.dataset.announcement}`;
+    if (storage.get(key) && !(window.Shopify && window.Shopify.designMode)) bar.hidden = true;
+    const close = bar.querySelector('[data-announcement-close]');
+    if (close)
+      close.addEventListener('click', () => {
+        bar.hidden = true;
+        storage.set(key, '1');
+      });
+  });
+
+  /* ---------- Product photo dots (phones) ---------- */
+  const initDots = (root = document) => {
+    root.querySelectorAll('[data-image-dots]').forEach((dots) => {
+      if (dots.dataset.ready) return;
+      dots.dataset.ready = '1';
+      const section = dots.closest('[data-product-section]');
+      const scroller = section && section.querySelector('.product-image');
+      if (!scroller) return;
+      const slides = Array.from(scroller.children);
+      dots.innerHTML = slides.map(() => '<span></span>').join('');
+      const marks = Array.from(dots.children);
+      const update = () => {
+        const index = Math.round(scroller.scrollLeft / Math.max(1, scroller.clientWidth));
+        marks.forEach((m, i) => m.classList.toggle('is-active', i === Math.min(index, marks.length - 1)));
+      };
+      scroller.addEventListener('scroll', () => window.requestAnimationFrame(update), { passive: true });
+      update();
+    });
+  };
+  initDots();
+  // Re-run after a variant swap replaces the product section.
+  new MutationObserver(() => initDots()).observe(document.getElementById('MainContent') || document.body, {
+    childList: true,
+    subtree: true,
+  });
+
+  /* ---------- Product recommendations ---------- */
+  document.querySelectorAll('[data-recommendations]').forEach(async (box) => {
+    try {
+      const html = await fetch(box.dataset.url).then((r) => r.text());
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const fresh = doc.querySelector('[data-recommendations]');
+      if (fresh && fresh.querySelector('.nnie-featured__item')) {
+        box.innerHTML = fresh.innerHTML;
+        box.hidden = false;
+      }
+    } catch (error) {
+      console.error(error);
     }
   });
 })();

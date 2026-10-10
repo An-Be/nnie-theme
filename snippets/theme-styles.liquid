@@ -12,6 +12,29 @@
   endif
 -%}
 <style>
+  {%- if settings.load_roboto_mono %}
+    @font-face {
+      font-family: 'Roboto Mono';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('{{ 'roboto-mono-400-normal.woff2' | asset_url }}') format('woff2');
+    }
+    @font-face {
+      font-family: 'Roboto Mono';
+      font-style: italic;
+      font-weight: 400;
+      font-display: swap;
+      src: url('{{ 'roboto-mono-400-italic.woff2' | asset_url }}') format('woff2');
+    }
+    @font-face {
+      font-family: 'Roboto Mono';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url('{{ 'roboto-mono-700-normal.woff2' | asset_url }}') format('woff2');
+    }
+  {%- endif %}
   {%- if settings.use_font_mono_picker and settings.font_mono_picker -%}
     {{ settings.font_mono_picker | font_face: font_display: 'swap' }}
     {{ settings.font_mono_picker | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}

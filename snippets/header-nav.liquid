@@ -29,6 +29,18 @@
     </a>
   {%- endfor -%}
 
+  {%- if section.settings.show_search -%}
+    <a
+      href="{{ routes.search_url }}"
+      class="header-menu-item font-bold{% if request.page_type == 'search' %} is-active{% endif %}"
+      {% if viewport == 'mobile' %}
+        data-aside-close-on-click
+      {% endif %}
+    >
+      {{- section.settings.search_label -}}
+    </a>
+  {%- endif -%}
+
   {%- if viewport == 'mobile' -%}
     {% render 'header-cart-link', section: section %}
   {%- endif -%}

@@ -52,7 +52,13 @@
     "cart_show_note": false,
     "cart_note_label": "Order note",
     "enable_fade": true,
-    "fade_delay": 500
+    "fade_delay": 500,
+    "free_shipping_enable": false,
+    "free_shipping_threshold": 150,
+    "free_shipping_remaining": "You're [amount] away from free shipping",
+    "free_shipping_reached": "Your order ships free",
+    "load_roboto_mono": false,
+    "smooth_fade": false
   },
   "presets": {
     "Default": {
@@ -108,7 +114,13 @@
       "cart_show_note": false,
       "cart_note_label": "Order note",
       "enable_fade": true,
-      "fade_delay": 500
+      "fade_delay": 500,
+      "free_shipping_enable": false,
+      "free_shipping_threshold": 150,
+      "free_shipping_remaining": "You're [amount] away from free shipping",
+      "free_shipping_reached": "Your order ships free",
+      "load_roboto_mono": false,
+      "smooth_fade": false
     }
   }
 }

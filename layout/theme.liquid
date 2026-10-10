@@ -51,7 +51,7 @@
   </head>
 
   {%- capture nnie_body_class -%}{%- render 'body-class' -%}{%- endcapture -%}
-  <body class="{{ nnie_body_class }}{% unless settings.enable_fade %} nnie-no-fade{% endunless %}" data-fade-delay="{{ settings.fade_delay }}">
+  <body class="{{ nnie_body_class }}{% unless settings.enable_fade %} nnie-no-fade{% endunless %}{% if settings.smooth_fade %} nnie-smooth-fade{% endif %}" data-fade-delay="{{ settings.fade_delay }}">
     {% sections 'header-group' %}
 
     <div class="grid-container">

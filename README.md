@@ -24,6 +24,41 @@ The look and behavior match the Hydrogen app: same compiled Tailwind + SCSS, sam
 
 Menus live in **Online Store → Navigation** (`main-menu` and `footer`), page text in **Online Store → Pages**, product photo captions are the photos' alt text.
 
+## Optional extras
+
+Everything below is **off by default**, so the site looks exactly like the Hydrogen version until you turn it on.
+
+| Feature | Where to turn it on |
+| --- | --- |
+| Announcement bar | Header area → Announcement bar (hidden, click the eye icon) |
+| Search link in the menu | Header → "Add a search link after the menu" |
+| Shop caption field | Shop page → Product list → "Caption comes from" (needs the `shop_caption` field below) |
+| Low stock label on the shop page | Shop page → Product list → "Show a low stock label" |
+| Collection intro / per-collection pages | Product list → "Show collection intro", or assign the `collection.editorial` template to a collection |
+| Product details from fields | Product → Product detail blocks (already added for material, details, measurements; empty fields are hidden) |
+| Low stock message | Product → Stock → "Show low stock message" |
+| "Email me when it's back" | Product → Stock → turn it on. Requests arrive as contact form emails |
+| Size guide drawer | Product → Size guide → pick a page (or set a product's own `size_guide` field) |
+| Photo dots on phones | Product → "Show photo dots on phones" |
+| Recommendations | Product page → Product recommendations (hidden, click the eye icon) |
+| Free shipping progress | Theme settings → Cart → Free shipping message |
+| Roboto Mono | Theme settings → Typography → "Load Roboto Mono for visitors" (changes the look) |
+| Smooth fade | Theme settings → Animation → Smooth fade |
+
+### Product custom fields to create
+
+In **Settings → Custom data → Products → Add definition**, namespace `custom`:
+
+| Name | Key | Type |
+| --- | --- | --- |
+| Shop caption | `custom.shop_caption` | Single line text |
+| Material | `custom.material` | Single line or multi-line text |
+| Details | `custom.details` | Multi-line text |
+| Measurements | `custom.measurements` | Multi-line text |
+| Size guide | `custom.size_guide` | Page (reference) |
+
+When a product uses the detail fields, take that text out of its description so it doesn't show twice. More detail blocks can use any other `custom.*` key.
+
 ## Page styles
 
 The body class (which drives header colors and backgrounds) follows the original routes:

@@ -28,6 +28,9 @@
   </div>
 
   <div class="product-main mx-5">
+    {%- if section.settings.show_mobile_dots and product.media.size > 1 -%}
+      <div class="product-image-dots" data-image-dots aria-hidden="true"></div>
+    {%- endif -%}
     <div class="product-title-price">
       <h1>{{ product.title }}</h1>
       <div class="product-price">
@@ -43,6 +46,11 @@
         {%- endif -%}
       </div>
     </div>
+    {%- if section.settings.show_low_stock and sold_out == false -%}
+      <div class="product-low-stock">
+        {%- render 'low-stock', variant: current_variant, threshold: section.settings.low_stock_threshold, label: section.settings.low_stock_label -%}
+      </div>
+    {%- endif -%}
     <br>
 
     <div class="product-form">
@@ -79,6 +87,18 @@
           </div>
         {%- endif -%}
       {%- endfor -%}
+
+      {%- liquid
+        assign size_guide = section.settings.size_guide_page
+        if product.metafields.custom.size_guide != blank
+          assign size_guide = product.metafields.custom.size_guide.value
+        endif
+      -%}
+      {%- if size_guide != blank -%}
+        <a href="{{ size_guide.url }}" class="product-size-guide-link" data-aside-open="size-guide-{{ section.id }}">
+          {{- section.settings.size_guide_label -}}
+        </a>
+      {%- endif -%}
 
       <div class="add-to-cart-button">
         <form method="post" action="{{ routes.cart_add_url }}" data-product-form>
@@ -122,10 +142,59 @@
           </form>
         </div>
       {%- endif -%}
+
+      {%- if section.settings.show_back_in_stock and sold_out and current_variant -%}
+        <div class="product-notify">
+          {%- assign notify_form_id = 'NotifyForm-' | append: section.id -%}
+          {%- form 'contact', id: notify_form_id, class: 'nnie-ajax-form' -%}
+            <input type="hidden" name="contact[subject]" value="Back in stock request: {{ product.title | escape }}">
+            <input type="hidden" name="contact[body]" value="Please email me when {{ product.title | escape }}{% unless product.has_only_default_variant %} ({{ current_variant.title | escape }}){% endunless %} is back in stock. {{ shop.url }}{{ current_variant.url }}">
+            <label for="NotifyEmail-{{ section.id }}">{{ section.settings.back_in_stock_heading }}</label>
+            <div data-subscribe-status>
+              {%- if form.posted_successfully? -%}
+                <p><small>{{ section.settings.back_in_stock_success }}</small></p>
+              {%- elsif form.errors -%}
+                <p><small>{{ form.errors | default_errors }}</small></p>
+              {%- endif -%}
+            </div>
+            <div class="flex items-center">
+              <input id="NotifyEmail-{{ section.id }}" type="email" name="contact[email]" required placeholder="{{ section.settings.back_in_stock_placeholder | escape }}" autocomplete="email">
+              <button type="submit" data-loading-text="...">{{ section.settings.back_in_stock_button }}</button>
+            </div>
+          {%- endform -%}
+        </div>
+      {%- endif -%}
     </div>
 
     {%- if section.settings.show_description -%}
-      <div>{{ product.description }}</div>
+      <div>
+        {{- product.description -}}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'detail' -%}
+            {%- assign detail_key = block.settings.key | strip -%}
+            {%- assign detail = product.metafields.custom[detail_key] -%}
+            {%- if detail != blank -%}
+              {%- if section.settings.detail_separator -%}
+                <p><br></p>
+                <hr>
+                <p><br></p>
+              {%- endif -%}
+              <div class="product-{{ block.settings.style }}" {{ block.shopify_attributes }}>
+                {%- if block.settings.label != blank -%}
+                  {{ block.settings.label }}
+                {%- endif -%}
+                {%- if detail.type == 'rich_text_field' -%}
+                  {{ detail | metafield_tag }}
+                {%- elsif detail.type == 'multi_line_text_field' -%}
+                  {{ detail.value | escape | newline_to_br }}
+                {%- else -%}
+                  {{ detail.value }}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
     {%- endif -%}
 
     {%- for block in section.blocks -%}
@@ -143,6 +212,19 @@
     {%- endfor -%}
     <br>
   </div>
+
+  {%- if size_guide != blank -%}
+    <div class="overlay" data-aside="size-guide-{{ section.id }}" aria-modal="true" role="dialog" aria-label="{{ section.settings.size_guide_label | escape }}">
+      <button class="close-outside" data-aside-close aria-label="{{ 'general.close' | t }}"></button>
+      <aside class="size-guide">
+        {% render 'drawer-header', heading: settings.cart_close_label %}
+        <main>
+          <h4>{{ size_guide.title }}</h4>
+          <div class="size-guide-content">{{ size_guide.content }}</div>
+        </main>
+      </aside>
+    </div>
+  {%- endif -%}
 </div>
 
 <script type="application/ld+json">
@@ -203,10 +285,132 @@
       "id": "show_description",
       "label": "Show product description",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "detail_separator",
+      "label": "Lines between product details",
+      "default": true,
+      "info": "Details are the \"Product detail\" blocks, filled from each product's custom fields."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_mobile_dots",
+      "label": "Show photo dots on phones",
+      "default": false,
+      "info": "Small dots under the swipeable photos so shoppers know there are more."
+    },
+    {
+      "type": "header",
+      "content": "Stock"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_low_stock",
+      "label": "Show low stock message",
+      "default": false,
+      "info": "Only works for variants where Shopify tracks inventory."
+    },
+    {
+      "type": "range",
+      "id": "low_stock_threshold",
+      "label": "Low stock means this many or fewer",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "text",
+      "id": "low_stock_label",
+      "label": "Low stock message",
+      "default": "Only [count] left",
+      "info": "[count] is replaced with the number left."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_back_in_stock",
+      "label": "Show \"email me when it's back\" on sold out sizes",
+      "default": false,
+      "info": "Requests arrive as contact form emails to the store's email address."
+    },
+    {
+      "type": "text",
+      "id": "back_in_stock_heading",
+      "label": "Heading",
+      "default": "Email me when it's back"
+    },
+    {
+      "type": "text",
+      "id": "back_in_stock_placeholder",
+      "label": "Email placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "back_in_stock_button",
+      "label": "Button",
+      "default": "NOTIFY ME"
+    },
+    {
+      "type": "text",
+      "id": "back_in_stock_success",
+      "label": "Success message",
+      "default": "Thank you, we'll email you."
+    },
+    {
+      "type": "header",
+      "content": "Size guide"
+    },
+    {
+      "type": "page",
+      "id": "size_guide_page",
+      "label": "Size guide page",
+      "info": "Opens in a drawer. Create the page in Online Store → Pages. A product's own \"Size guide\" field overrides this."
+    },
+    {
+      "type": "text",
+      "id": "size_guide_label",
+      "label": "Link text",
+      "default": "Size guide"
     }
   ],
   "blocks": [
     { "type": "@app" },
+    {
+      "type": "detail",
+      "name": "Product detail",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows a product custom field (Settings → Custom data → Products) under the description. Hidden on products where the field is empty."
+        },
+        {
+          "type": "text",
+          "id": "key",
+          "label": "Field key",
+          "default": "material",
+          "info": "The last part of the field's namespace and key, e.g. material for custom.material."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label before the text (optional)"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "options": [
+            { "value": "material", "label": "Material" },
+            { "value": "details", "label": "Details" },
+            { "value": "measurements", "label": "Measurements" },
+            { "value": "description", "label": "Description" }
+          ],
+          "default": "material"
+        }
+      ]
+    },
     {
       "type": "text",
       "name": "Text",

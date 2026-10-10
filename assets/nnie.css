@@ -1606,3 +1606,207 @@ aside.cart a {
 .product-extra a {
   text-decoration: underline;
 }
+
+/*
+* --------------------------------------------------
+* Enhancements (all optional, toggled in the theme editor)
+* --------------------------------------------------
+*/
+/* Smooth fade (the original transition has no unit, so it never animates) */
+body.nnie-smooth-fade .header,
+body.nnie-smooth-fade .grid-container {
+  transition: opacity 0.3s ease;
+}
+
+/* Announcement bar: sits inside the header's 28px top margin */
+.nnie-announcement {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0 2rem;
+  background: var(--announcement-bg, #670e2d);
+  color: var(--announcement-text, #fff);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+.nnie-announcement a {
+  color: inherit;
+}
+.nnie-announcement[hidden] {
+  display: none;
+}
+
+.nnie-announcement__close {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: 0;
+  color: inherit;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@media (max-width: 45rem) {
+  .nnie-announcement--desktop-only {
+    display: none;
+  }
+}
+/* Collection intro (editorial layout) */
+.collection-intro {
+  font-family: var(--font-mono);
+  padding: 10rem 2rem 0;
+  max-width: 600px;
+}
+.collection-intro h1 {
+  font-size: 16px;
+  font-weight: normal;
+  margin: 0 0 1rem;
+}
+.collection-intro .collection-intro__text {
+  font-size: 12px;
+  color: var(--color-red);
+}
+.collection-intro + .collection-pagination-link, .collection-intro ~ .products-grid .product-item-wrapper:first-child {
+  margin-top: 3rem;
+}
+
+/* Low stock */
+.nnie-low-stock {
+  color: var(--color-red);
+}
+
+.product-low-stock {
+  margin: 5px;
+  font-size: 12px;
+}
+
+/* Back in stock */
+.product-notify {
+  width: 200px;
+  font-size: 12px;
+}
+.product-notify label {
+  display: block;
+  margin-bottom: 4px;
+}
+.product-notify input {
+  flex: 1;
+  min-width: 0;
+  height: 28px;
+  margin: 0;
+  border-radius: 0;
+  font-size: 12px;
+}
+.product-notify button {
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid var(--atc-border, #000);
+  border-left: 0;
+  background: var(--buy-now-bg, #000);
+  color: var(--buy-now-text, #fff);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* Size guide */
+.product-size-guide-link {
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+aside.size-guide {
+  width: min(var(--aside-width), 100vw);
+  color: var(--color-light);
+  overflow-y: auto;
+}
+aside.size-guide header a {
+  display: none;
+}
+aside.size-guide header {
+  justify-content: flex-end;
+  margin: 10px 20px 0 0;
+  height: 25px;
+}
+aside.size-guide main {
+  max-width: calc(var(--aside-width) - 2rem);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+aside.size-guide h4 {
+  margin-bottom: 1rem;
+}
+aside.size-guide table {
+  width: 100%;
+  border-collapse: collapse;
+}
+aside.size-guide td,
+aside.size-guide th {
+  border-bottom: 1px solid currentColor;
+  padding: 4px 6px 4px 0;
+  text-align: left;
+}
+aside.size-guide a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+/* Product photo dots (phones only) */
+.product-image-dots {
+  display: none;
+}
+
+@media (max-width: 40rem) {
+  .product-image-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin: 8px 0 4px;
+  }
+  .product-image-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--product-text-color, #000);
+    opacity: 0.25;
+    transition: opacity 0.2s;
+  }
+  .product-image-dots span.is-active {
+    opacity: 1;
+  }
+}
+/* Product details from custom fields */
+.product-main .product-material,
+.product-main .product-details,
+.product-main .product-measurements {
+  font-size: 12px;
+}
+
+/* Free shipping progress */
+.cart-free-shipping {
+  margin-bottom: 0.75rem;
+}
+.cart-free-shipping .cart-free-shipping__bar {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.25);
+  margin-top: 4px;
+}
+.cart-free-shipping .cart-free-shipping__bar span {
+  display: block;
+  height: 100%;
+  background: var(--cart-divider-color, #fff);
+}
+
+/* Recommendations: hidden until loaded */
+.nnie-recommendations[hidden] {
+  display: none;
+}
